@@ -4,7 +4,8 @@
 */
 extern crate rppal; 
 
-use rppal::gpio::{Gpio, High, Low, Output};
+use rppal::gpio::{Gpio, Output, Level};
+use Level::{High, Low};
 
 const ENABLE_A: u32 = 1;
 const ENABLE_B: u32 = 2;
