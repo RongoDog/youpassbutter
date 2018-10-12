@@ -12,7 +12,7 @@ const IN_3: u8 = 5;
 const IN_4: u8 = 6;
 
 // Some templates
-fn stop(gpio: rppal::gpio::Gpio) -> bool {
+fn stop(mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::Low);
     gpio.write(ENABLE_B, rppal::gpio::Level::Low);
     gpio.write(IN_1, rppal::gpio::Level::Low);
@@ -22,7 +22,7 @@ fn stop(gpio: rppal::gpio::Gpio) -> bool {
     return true;
 }
 
-fn forward(gpio: rppal::gpio::Gpio) -> bool {
+fn forward(mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::High);
     gpio.write(ENABLE_B, rppal::gpio::Level::High);
     gpio.write(IN_2, rppal::gpio::Level::Low);
@@ -32,7 +32,7 @@ fn forward(gpio: rppal::gpio::Gpio) -> bool {
     return true;
 }
 
-fn backward(gpio: rppal::gpio::Gpio) -> bool {
+fn backward(mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::High);
     gpio.write(ENABLE_B, rppal::gpio::Level::High);
     gpio.write(IN_1, rppal::gpio::Level::Low);
@@ -44,7 +44,7 @@ fn backward(gpio: rppal::gpio::Gpio) -> bool {
 
 // This function should initialize the GPIO
 // NOTE THAT THIS SHOULD BE MOVED ONCES WE ADD PERIPHERALS
-fn initialize(gpio: rppal::gpio::Gpio) -> bool {
+fn initialize(mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.set_mode(ENABLE_A, rppal::gpio::Mode::Output);
     gpio.set_mode(ENABLE_B, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_1, rppal::gpio::Mode::Output);
