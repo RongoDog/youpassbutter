@@ -1,0 +1,10 @@
+[package]
+name = "control_system"
+version = "0.1.0"
+authors = ["Roni Peled <roni@mediajel.com>"]
+
+[dependencies]
+
+[[bin]]
+name = "control_system"
+path = "main.rs"

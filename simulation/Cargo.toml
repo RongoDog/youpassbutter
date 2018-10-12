@@ -1,9 +1,10 @@
 [package]
 name = "simulation"
 version = "0.1.0"
-authors = ["Roni Peled <roni@mediajel.com>"]
+authors = ["Roni Peled <roni.peled1994@gmail.com>"]
 
 [dependencies]
 three = "0.3.1"
 mint = "0.5.0"
+control_system = { path = "../control_system" }
 
