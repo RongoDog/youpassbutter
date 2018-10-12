@@ -4,7 +4,7 @@
 */
 extern crate rppal; 
 
-use rppal::gpio
+use rppal::gpio;
 use gpio::{Gpio, Output, Level};
 use Level::{High, Low};
 
