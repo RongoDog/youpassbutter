@@ -4,12 +4,12 @@
 */
 extern crate rppal; 
 
-const ENABLE_A: u32 = 1;
-const ENABLE_B: u32 = 2;
-const IN_1: u32 = 3;
-const IN_2: u32 = 4;
-const IN_3: u32 = 5;
-const IN_4: u32 = 6;
+const ENABLE_A: u8 = 1;
+const ENABLE_B: u8 = 2;
+const IN_1: u8 = 3;
+const IN_2: u8 = 4;
+const IN_3: u8 = 5;
+const IN_4: u8 = 6;
 
 // Some templates
 fn stop(gpio: rppal::gpio::Gpio) -> bool {
