@@ -21,6 +21,7 @@ fn stop(gpio: Gpio) -> bool {
     gpio.write(IN_2, Low);
     gpio.write(IN_3, Low);
     gpio.write(IN_4, Low);
+    return true;
 }
 
 fn forward(gpio: Gpio) -> bool {
@@ -30,6 +31,7 @@ fn forward(gpio: Gpio) -> bool {
     gpio.write(IN_1, High);
     gpio.write(IN_4, Low);
     gpio.write(IN_3, High);
+    return true;
 }
 
 fn backward(gpio: Gpio) -> bool {
@@ -39,6 +41,7 @@ fn backward(gpio: Gpio) -> bool {
     gpio.write(IN_2, High);
     gpio.write(IN_3, Low);
     gpio.write(IN_4, High);
+    return true;
 }
 
 // This function should initialize the GPIO
@@ -51,4 +54,5 @@ fn initialize(gpio: gpio::Gpio) -> bool {
     gpio.set_mode(IN_3, gpio::Output);
     gpio.set_mode(IN_4, gpio::Output);
     stop(gpio);
+    return true;
 }
