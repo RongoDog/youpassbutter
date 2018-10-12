@@ -56,8 +56,8 @@ fn main() {
     ground_mesh.set_position(ground_position);
 
     let camera = window.factory.perspective_camera(
-        80.0,
-        0.1 .. 30.0
+        100.0,
+        0.1 .. 40.0
     );
     let mut controls = three::controls::Orbit::builder(&camera)
         .position([2.5, 2.5, 7.0])

@@ -2,6 +2,8 @@
 mod states;
 
 use chassis::states::{Idle, Forward, Backward};
+use motor_drivers::physical;
+use motor_drivers::simulation;
 use std::time::SystemTime;
 
 struct SharedState {
@@ -12,11 +14,11 @@ struct SharedState {
     y: f32,
     z: f32,
     last_update: SystemTime,
+    is_simulation: bool,
 }
 
 struct Devastator<T> {
     shared_state: SharedState,
-    state: T,
 };
 
 impl Devastator<T> {
@@ -37,8 +39,15 @@ impl Devastator<T> {
     }
 }
 
-impl From<Devastator> for Devastator<Idle> {
+impl<T> From<Devastator<T>> for Devastator<Idle> {
     fn from(val: Devastator<T>) -> Devastator<Idle> {
+        if (val.shared_state.is_simulation) {
+            // Physical Driver
+            motor_drivers::physical::stop();
+        } else {
+            // Simulation Driver
+            motor_drivers::simulation::stop();
+        }
         Devastator<Idle> {
             shared_state: val.shared_state,
             state: Idle,
@@ -46,8 +55,15 @@ impl From<Devastator> for Devastator<Idle> {
     }
 }
 
-impl From<Devastator> for Devastator<Forward> {
+impl<T> From<Devastator<T>> for Devastator<Forward> {
     fn from(val: Devastator<T>) -> Devastator<Idle> {
+        if (val.shared_state.is_simulation) {
+            // Physical Driver
+            chassis::physical::forward();
+        } else {
+            // Simulation Driver
+            chassis::simulation::forward();
+        }
         Devastator<Idle> {
             shared_state: val.shared_state,
             state: Forward,
@@ -55,8 +71,15 @@ impl From<Devastator> for Devastator<Forward> {
     }
 }
 
-impl From<Devastator> for Devastator<Backward> {
+impl<T> From<Devastator<T>> for Devastator<Backward> {
     fn from(val: Devastator<T>) -> Devastator<Idle> {
+        if (val.shared_state.is_simulation) {
+            // Physical Driver
+            chassis::physical::backward();
+        } else {
+            // Simulation Driver
+            chassis::simulation::backward();
+        }
         Devastator<Idle> {
             shared_state: val.shared_state,
             state: Backward,
@@ -65,16 +88,20 @@ impl From<Devastator> for Devastator<Backward> {
 }
 
 impl Devastator<Idle> {
-    pub fn new() -> Self {
-        Devastator<Idle> {
-            speed_x: 0.0,
-            speed_y: 0.0,
-            speed_z: 0.0,
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-            state: Idle,
-            last_update: SystemTime::now(),
+    pub fn new(is_simulation: bool) -> Self {
+        if (val.shared_state.is_simulation) {
+            // Physical Driver
+            if !chassis::physical::initialize() {
+                println!("Failed to initialize devastor");
+            }
+            chassis::physical::stop();
+        } else {
+            // Simulation Driver
+            chassis::simulation::stop();
+        }
+
+        return Devastator<Idle> {
+            is_simulation: is_simulation,
         }
     }
 }
