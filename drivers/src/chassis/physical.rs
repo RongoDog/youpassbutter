@@ -16,56 +16,56 @@ const STEP_2: u8 = 23;
 const STEP_3: u8 = 24;
 const STEP_4: u8 = 25;
 
-pub fn first_step(mut gpio: rppal::gpio::Gpio) {
+pub fn first_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::High);
     gpio.write(STEP_2, rppal::gpio::Level::Low);
     gpio.write(STEP_3, rppal::gpio::Level::Low);
     gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn second_step(mut gpio: rppal::gpio::Gpio) {
+pub fn second_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::High);
     gpio.write(STEP_2, rppal::gpio::Level::High);
     gpio.write(STEP_3, rppal::gpio::Level::Low);
     gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn third_step(mut gpio: rppal::gpio::Gpio) {
+pub fn third_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::Low);
     gpio.write(STEP_2, rppal::gpio::Level::High);
     gpio.write(STEP_3, rppal::gpio::Level::Low);
     gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn fourth_step(mut gpio: rppal::gpio::Gpio) {
+pub fn fourth_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::Low);
     gpio.write(STEP_2, rppal::gpio::Level::High);
     gpio.write(STEP_3, rppal::gpio::Level::High);
     gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn fifth_step(mut gpio: rppal::gpio::Gpio) {
+pub fn fifth_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::Low);
     gpio.write(STEP_2, rppal::gpio::Level::Low);
     gpio.write(STEP_3, rppal::gpio::Level::High);
     gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn sixth_step(mut gpio: rppal::gpio::Gpio) {
+pub fn sixth_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::Low);
     gpio.write(STEP_2, rppal::gpio::Level::Low);
     gpio.write(STEP_3, rppal::gpio::Level::High);
     gpio.write(STEP_4, rppal::gpio::Level::High);
 }
 
-pub fn seventh_step(mut gpio: rppal::gpio::Gpio) {
+pub fn seventh_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::Low);
     gpio.write(STEP_2, rppal::gpio::Level::Low);
     gpio.write(STEP_3, rppal::gpio::Level::Low);
     gpio.write(STEP_4, rppal::gpio::Level::High);
 }
 
-pub fn eight_step(mut gpio: rppal::gpio::Gpio) {
+pub fn eight_step(gpio: &mut rppal::gpio::Gpio) {
     gpio.write(STEP_1, rppal::gpio::Level::High);
     gpio.write(STEP_2, rppal::gpio::Level::Low);
     gpio.write(STEP_3, rppal::gpio::Level::Low);
@@ -73,7 +73,7 @@ pub fn eight_step(mut gpio: rppal::gpio::Gpio) {
 }
 
 // Some templates
-pub fn stop(mut gpio: rppal::gpio::Gpio) -> bool {
+pub fn stop(gpio: &mut rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::Low);
     gpio.write(ENABLE_B, rppal::gpio::Level::Low);
     gpio.write(IN_1, rppal::gpio::Level::Low);
@@ -83,7 +83,7 @@ pub fn stop(mut gpio: rppal::gpio::Gpio) -> bool {
     return true;
 }
 
-pub fn forward(mut gpio: rppal::gpio::Gpio) -> bool {
+pub fn forward(gpio: &mut rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::High);
     gpio.write(ENABLE_B, rppal::gpio::Level::High);
     gpio.write(IN_2, rppal::gpio::Level::Low);
@@ -93,7 +93,7 @@ pub fn forward(mut gpio: rppal::gpio::Gpio) -> bool {
     return true;
 }
 
-pub fn backward(mut gpio: rppal::gpio::Gpio) -> bool {
+pub fn backward(gpio: &mut rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::High);
     gpio.write(ENABLE_B, rppal::gpio::Level::High);
     gpio.write(IN_1, rppal::gpio::Level::Low);
