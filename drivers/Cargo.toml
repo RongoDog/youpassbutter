@@ -5,3 +5,7 @@ authors = ["Roni Peled <roni.peled1994@gmail.com>"]
 
 [dependencies]
 rppal = "0.8.1"
+
+[lib]
+name = "drivers"
+path = "src/lib.rs"

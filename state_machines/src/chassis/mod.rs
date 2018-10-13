@@ -2,24 +2,17 @@ extern crate drivers;
 extern crate simulation;
 extern crate rppal;
 
+mod states;
+mod user_control;
+
+use std::time::SystemTime;
+use std::sync::{Mutex};
+
 use states::{Idle, Forward, Backward};
 use drivers::chassis;
-use std::time::SystemTime;
-
-struct SharedState {
-    speed_x: f32,
-    speed_y: f32,
-    speed_z: f32,
-    x: f32,
-    y: f32,
-    z: f32,
-    last_update: SystemTime,
-    is_simulation: bool,
-    gpio: &mut rppal::gpio::Gpio,
-};
 
 struct Chassis<T> {
-    shared_state: &mut SharedState,
+    shared_state: Mutex<SharedState>,
 };
 
 impl Chassis<T> {
@@ -42,7 +35,7 @@ impl Chassis<T> {
 
 impl<T> From<Chassis<T>> for Chassis<Idle> {
     fn from(val: Devastator<T>) -> Devastator<Idle> {
-        if (val.shared_state.is_simulation) {
+        if val.shared_state.is_simulation {
             // Simulation Driver
             simulation::drivers::chassis::stop(val.shared_state);
         } else {
@@ -57,12 +50,12 @@ impl<T> From<Chassis<T>> for Chassis<Idle> {
 
 impl<T> From<Chassis<T>> for Chassis<Forward> {
     fn from(val: Devastator<T>) -> Devastator<Forward> {
-        if (val.shared_state.is_simulation) {
+        if val.shared_state.is_simulation {
             // Simulation Driver
             simulation::drivers::chassis::forward(val.shared_state);
         } else {
             // Physical Driver
-            drivers::chassis::forward(val.shared_state) ;
+            drivers::chassis::forward(val.shared_state);
         }
         return Chassis<Forward> {
             shared_state: val.shared_state,
@@ -72,7 +65,7 @@ impl<T> From<Chassis<T>> for Chassis<Forward> {
 
 impl<T> From<Chassis<T>> for Chassis<Backward> {
     fn from(val: Devastator<T>) -> Devastator<Backward> {
-        if (val.shared_state.is_simulation) {
+        if val.shared_state.is_simulation {
             // Simulation Driver
             simulation::drivers::chassis::backward(val.shared_state);
         } else {
@@ -86,7 +79,7 @@ impl<T> From<Chassis<T>> for Chassis<Backward> {
 }
 
 impl Chassis<Idle> {
-    pub fn new(shared_state: &mut SharedState) -> Self {
+    pub fn new(shared_state: Mutex<SharedState>) -> Self {
         if !val.shared_state.is_simulation {
             // Physical Driver
             if !drivers::chassis::initialize(shared_state.gpio) {

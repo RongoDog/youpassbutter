@@ -27,6 +27,5 @@ fn main() {
         }
         step += 1;
         thread::sleep(second);
-
     }
 }
