@@ -1,10 +1,11 @@
+/*
 use chassis::{Chassis};
-use chassis::states::{States};
+use chassis::states::{Idle, Forward, Backward};
 
 enum ChassisWrapper {
     Idle(Chassis<States::Idle>),
     Forward(Chassis<States::Forward>),
-    Background(Chassis<States::Background>),
+    Backward(Chassis<States::Backward>),
 }
 
 struct Factory {
@@ -18,3 +19,4 @@ impl Factory {
         }
     }
 }
+*/

@@ -3,8 +3,8 @@ name = "drivers"
 version = "0.1.0"
 authors = ["Roni Peled <roni.peled1994@gmail.com>"]
 
-[dependencies]
-rppal = "0.8.1"
+[target.x86_64-apple-darwin.dependencies]
+rppal = { path = "../rppal_stubs" }
 
 [lib]
 name = "drivers"

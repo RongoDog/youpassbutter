@@ -1,10 +1,12 @@
 
+
+/*
 extern crate drivers;
 extern crate rppal;
 
 use std::{thread, time};
 
-fn main() {
+fn run_pi() {
     let second = time::Duration::from_millis(1);
     let mut gpio: rppal::gpio::Gpio = rppal::gpio::Gpio::new().unwrap();
     drivers::chassis::physical::initialize(&mut gpio);
@@ -29,3 +31,4 @@ fn main() {
         thread::sleep(second);
     }
 }
+*/

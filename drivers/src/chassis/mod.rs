@@ -4,6 +4,8 @@
 */
 extern crate rppal; 
 
+use ressources::{HardwareInterfacePointers};
+
 const ENABLE_A: u8 = 1;
 const ENABLE_B: u8 = 2;
 const IN_1: u8 = 3;
@@ -12,7 +14,8 @@ const IN_3: u8 = 5;
 const IN_4: u8 = 6;
 
 // Some templates
-pub fn stop(gpio: &mut rppal::gpio::Gpio) -> bool {
+pub fn stop(pointers: HardwareInterfacePointers) -> bool {
+    let mut gpio = pointers.gpio_mutex.lock().unwrap();
     gpio.write(ENABLE_A, rppal::gpio::Level::Low);
     gpio.write(ENABLE_B, rppal::gpio::Level::Low);
     gpio.write(IN_1, rppal::gpio::Level::Low);
@@ -22,7 +25,8 @@ pub fn stop(gpio: &mut rppal::gpio::Gpio) -> bool {
     return true;
 }
 
-pub fn forward(gpio: &mut rppal::gpio::Gpio) -> bool {
+pub fn forward(pointers: HardwareInterfacePointers) -> bool {
+    let mut gpio = pointers.gpio_mutex.lock().unwrap();
     gpio.write(ENABLE_A, rppal::gpio::Level::High);
     gpio.write(ENABLE_B, rppal::gpio::Level::High);
     gpio.write(IN_2, rppal::gpio::Level::Low);
@@ -32,7 +36,8 @@ pub fn forward(gpio: &mut rppal::gpio::Gpio) -> bool {
     return true;
 }
 
-pub fn backward(gpio: &mut rppal::gpio::Gpio) -> bool {
+pub fn backward(pointers: HardwareInterfacePointers) -> bool {
+    let mut gpio = pointers.gpio_mutex.lock().unwrap();
     gpio.write(ENABLE_A, rppal::gpio::Level::High);
     gpio.write(ENABLE_B, rppal::gpio::Level::High);
     gpio.write(IN_1, rppal::gpio::Level::Low);
@@ -43,13 +48,13 @@ pub fn backward(gpio: &mut rppal::gpio::Gpio) -> bool {
 }
 
 // This function sets the mode for all the required GPIO pins
-pub fn initialize(gpio: &mut rppal::gpio::Gpio) -> bool {
+pub fn initialize(pointers: HardwareInterfacePointers) -> bool {
+    let mut gpio = pointers.gpio_mutex.lock().unwrap();
     gpio.set_mode(ENABLE_A, rppal::gpio::Mode::Output);
     gpio.set_mode(ENABLE_B, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_1, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_2, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_3, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_4, rppal::gpio::Mode::Output);
-    //stop(gpio);
     return true;
 }

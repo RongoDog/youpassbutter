@@ -56,63 +56,71 @@ fn main() {
 
 */
 
-pub fn zero_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn zero_step(pointers: HardwareInterfacePointers) {
   gpio.write(STEP_1, rppal::gpio::Level::Low);
   gpio.write(STEP_2, rppal::gpio::Level::Low);
   gpio.write(STEP_3, rppal::gpio::Level::Low);
   gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn first_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn first_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::High);
   gpio.write(STEP_2, rppal::gpio::Level::Low);
   gpio.write(STEP_3, rppal::gpio::Level::Low);
   gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn second_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn second_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::High);
   gpio.write(STEP_2, rppal::gpio::Level::High);
   gpio.write(STEP_3, rppal::gpio::Level::Low);
   gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn third_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn third_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::Low);
   gpio.write(STEP_2, rppal::gpio::Level::High);
   gpio.write(STEP_3, rppal::gpio::Level::Low);
   gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn fourth_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn fourth_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::Low);
   gpio.write(STEP_2, rppal::gpio::Level::High);
   gpio.write(STEP_3, rppal::gpio::Level::High);
   gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn fifth_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn fifth_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::Low);
   gpio.write(STEP_2, rppal::gpio::Level::Low);
   gpio.write(STEP_3, rppal::gpio::Level::High);
   gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
-pub fn sixth_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn sixth_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::Low);
   gpio.write(STEP_2, rppal::gpio::Level::Low);
   gpio.write(STEP_3, rppal::gpio::Level::High);
   gpio.write(STEP_4, rppal::gpio::Level::High);
 }
 
-pub fn seventh_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::Low);
-    gpio.write(STEP_2, rppal::gpio::Level::Low);
-    gpio.write(STEP_3, rppal::gpio::Level::Low);
-    gpio.write(STEP_4, rppal::gpio::Level::High);
+pub fn seventh_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
+  gpio.write(STEP_1, rppal::gpio::Level::Low);
+  gpio.write(STEP_2, rppal::gpio::Level::Low);
+  gpio.write(STEP_3, rppal::gpio::Level::Low);
+  gpio.write(STEP_4, rppal::gpio::Level::High);
 }
 
-pub fn eight_step(gpio: &mut rppal::gpio::Gpio) {
+pub fn eight_step(pointers: HardwareInterfacePointers) {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(STEP_1, rppal::gpio::Level::High);
   gpio.write(STEP_2, rppal::gpio::Level::Low);
   gpio.write(STEP_3, rppal::gpio::Level::Low);
@@ -121,7 +129,8 @@ pub fn eight_step(gpio: &mut rppal::gpio::Gpio) {
 
 // This function should initialize the GPIO
 // NOTE THAT THIS SHOULD BE MOVED ONCES WE ADD PERIPHERALS
-pub fn initialize(gpio: &mut rppal::gpio::Gpio) -> bool {
+pub fn initialize(pointers: HardwareInterfacePointers) -> bool {
+  let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.set_mode(STEP_1, rppal::gpio::Mode::Output);
   gpio.set_mode(STEP_2, rppal::gpio::Mode::Output);
   gpio.set_mode(STEP_3, rppal::gpio::Mode::Output);

@@ -6,12 +6,12 @@ authors = ["Roni Peled <roni.peled1994@gmail.com>"]
 [dependencies]
 three = "0.3.1"
 mint = "0.5.0"
-state_machines = { path = "../state_machines" }
+drivers = { path = "../drivers" }
 
 [lib]
-name = "simulation"
+name = "youpassbutter"
 path = "src/lib.rs"
 
 [[bin]]
-name = "simulation_runner"
+name = "youpassbutter_runner"
 path = "src/main.rs"
