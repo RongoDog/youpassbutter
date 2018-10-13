@@ -5,7 +5,6 @@ authors = ["Roni Peled <roni@mediajel.com>"]
 
 [dependencies]
 drivers = { path = "../drivers" }
-rppal = "0.8.1"
 
 [lib]
 name = "state_machines"
