@@ -26,7 +26,7 @@ fn main() {
             _ => drivers::chassis::physical::fifth_step(&mut gpio)
         }
         step += 1;
-        thread::sleep(ten_millis*100);
+        thread::sleep(ten_millis*10);
 
     }
 }
