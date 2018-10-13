@@ -1,1 +1,1 @@
-mod chassis;
+pub mod chassis;

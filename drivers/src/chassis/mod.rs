@@ -1,2 +1,2 @@
-mod physical;
-mod simulation;
+pub mod physical;
+pub mod simulation;
