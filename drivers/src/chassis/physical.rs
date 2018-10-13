@@ -105,7 +105,7 @@ pub fn backward(mut gpio: rppal::gpio::Gpio) -> bool {
 
 // This function should initialize the GPIO
 // NOTE THAT THIS SHOULD BE MOVED ONCES WE ADD PERIPHERALS
-pub fn initialize(mut gpio: rppal::gpio::Gpio) -> bool {
+pub fn initialize(&mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.set_mode(ENABLE_A, rppal::gpio::Mode::Output);
     gpio.set_mode(ENABLE_B, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_1, rppal::gpio::Mode::Output);
