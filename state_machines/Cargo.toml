@@ -1,10 +1,11 @@
 [package]
-name = "control_system"
+name = "state_machines"
 version = "0.1.0"
 authors = ["Roni Peled <roni@mediajel.com>"]
 
 [dependencies]
+drivers = { path = "../drivers" }
 
 [[bin]]
-name = "control_system"
+name = "state_machines"
 path = "main.rs"

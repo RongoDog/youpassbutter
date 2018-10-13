@@ -1,9 +1,9 @@
-// Module that contains the states
-mod states;
+extern crate drivers;
+extern crate simulation;
+extern crate rppal;
 
-use chassis::states::{Idle, Forward, Backward};
-use motor_drivers::physical;
-use motor_drivers::simulation;
+use states::{Idle, Forward, Backward};
+use drivers::chassis;
 use std::time::SystemTime;
 
 struct SharedState {
@@ -15,13 +15,14 @@ struct SharedState {
     z: f32,
     last_update: SystemTime,
     is_simulation: bool,
-}
-
-struct Devastator<T> {
-    shared_state: SharedState,
+    gpio: &mut rppal::gpio::Gpio,
 };
 
-impl Devastator<T> {
+struct Chassis<T> {
+    shared_state: &mut SharedState,
+};
+
+impl Chassis<T> {
     pub fn move(&mut self) -> bool {
         match self.shared_state.last_update.elapsed() {
             Ok(elapsed) {
@@ -39,69 +40,62 @@ impl Devastator<T> {
     }
 }
 
-impl<T> From<Devastator<T>> for Devastator<Idle> {
+impl<T> From<Chassis<T>> for Chassis<Idle> {
     fn from(val: Devastator<T>) -> Devastator<Idle> {
         if (val.shared_state.is_simulation) {
-            // Physical Driver
-            motor_drivers::physical::stop();
-        } else {
             // Simulation Driver
-            motor_drivers::simulation::stop();
+            simulation::drivers::chassis::stop(val.shared_state);
+        } else {
+            // Physical Driver
+            drivers::chassis::stop(val.shared_state);
         }
-        Devastator<Idle> {
+        return Chassis<Idle> {
             shared_state: val.shared_state,
-            state: Idle,
         }
     }
 }
 
-impl<T> From<Devastator<T>> for Devastator<Forward> {
-    fn from(val: Devastator<T>) -> Devastator<Idle> {
+impl<T> From<Chassis<T>> for Chassis<Forward> {
+    fn from(val: Devastator<T>) -> Devastator<Forward> {
         if (val.shared_state.is_simulation) {
-            // Physical Driver
-            chassis::physical::forward();
-        } else {
             // Simulation Driver
-            chassis::simulation::forward();
+            simulation::drivers::chassis::forward(val.shared_state);
+        } else {
+            // Physical Driver
+            drivers::chassis::forward(val.shared_state) ;
         }
-        Devastator<Idle> {
+        return Chassis<Forward> {
             shared_state: val.shared_state,
-            state: Forward,
         }
     }
 }
 
-impl<T> From<Devastator<T>> for Devastator<Backward> {
-    fn from(val: Devastator<T>) -> Devastator<Idle> {
+impl<T> From<Chassis<T>> for Chassis<Backward> {
+    fn from(val: Devastator<T>) -> Devastator<Backward> {
         if (val.shared_state.is_simulation) {
-            // Physical Driver
-            chassis::physical::backward();
-        } else {
             // Simulation Driver
-            chassis::simulation::backward();
+            simulation::drivers::chassis::backward(val.shared_state);
+        } else {
+            // Physical Driver
+            drivers::chassis::backward(val.shared_state);
         }
-        Devastator<Idle> {
+        Devastator<Backward> {
             shared_state: val.shared_state,
-            state: Backward,
         }
     }
 }
 
-impl Devastator<Idle> {
-    pub fn new(is_simulation: bool) -> Self {
-        if (val.shared_state.is_simulation) {
+impl Chassis<Idle> {
+    pub fn new(shared_state: &mut SharedState) -> Self {
+        if !val.shared_state.is_simulation {
             // Physical Driver
-            if !chassis::physical::initialize() {
+            if !drivers::chassis::initialize(shared_state.gpio) {
                 println!("Failed to initialize devastor");
             }
-            chassis::physical::stop();
-        } else {
-            // Simulation Driver
-            chassis::simulation::stop();
+            drivers::chassis::stop(shared_state.gpio);
         }
-
-        return Devastator<Idle> {
-            is_simulation: is_simulation,
-        }
+        return Chassis<Idle> {
+            shared_state: shared_state,
+        };
     }
 }
