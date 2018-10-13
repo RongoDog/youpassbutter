@@ -5,7 +5,7 @@ extern crate rppal;
 use std::{thread, time};
 
 fn main() {
-    let ten_millis = time::Duration::from_millis(10);
+    let second = time::Duration::from_millis(1000);
     let mut gpio: rppal::gpio::Gpio = rppal::gpio::Gpio::new().unwrap();
     drivers::chassis::physical::initialize(&mut gpio);
 
@@ -26,7 +26,7 @@ fn main() {
             _ => drivers::chassis::physical::fifth_step(&mut gpio)
         }
         step += 1;
-        thread::sleep(ten_millis*10);
+        thread::sleep(second);
 
     }
 }
