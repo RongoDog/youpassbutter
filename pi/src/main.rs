@@ -10,7 +10,7 @@ fn main() {
     drivers::chassis::physical::initialize(&mut gpio);
 
     let mut step = 1;
-    while true {
+    loop {
         if step > 8 {
             step = 1;
         }
