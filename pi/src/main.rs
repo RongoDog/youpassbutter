@@ -22,7 +22,8 @@ fn main() {
             5 => drivers::chassis::physical::fifth_step(gpio),
             6 => drivers::chassis::physical::sixth_step(gpio),
             7 => drivers::chassis::physical::seventh_step(gpio),
-            8 => drivers::chassis::physical::eight_step(gpio)
+            8 => drivers::chassis::physical::eight_step(gpio),
+            _ => drivers::chassis::physical::fifth_step(gpio)
         }
         step += 1;
         thread::sleep(ten_millis*100);
