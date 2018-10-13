@@ -5,9 +5,8 @@ authors = ["Roni Peled <roni@mediajel.com>"]
 
 [dependencies]
 drivers = { path = "../drivers" }
-simulation = { path = "../simulation" }
 rppal = "0.8.1"
 
 [lib]
-name = "state_machines
+name = "state_machines"
 path = "src/lib.rs"

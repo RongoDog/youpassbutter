@@ -1,5 +1,4 @@
 extern crate drivers;
-extern crate simulation;
 extern crate rppal;
 
 mod states;
@@ -9,7 +8,6 @@ use std::time::SystemTime;
 use std::sync::{Mutex};
 
 use states::{Idle, Forward, Backward};
-use drivers::chassis;
 
 struct Chassis<T> {
     shared_state: Mutex<SharedState>,
@@ -37,7 +35,7 @@ impl<T> From<Chassis<T>> for Chassis<Idle> {
     fn from(val: Devastator<T>) -> Devastator<Idle> {
         if val.shared_state.is_simulation {
             // Simulation Driver
-            simulation::drivers::chassis::stop(val.shared_state);
+            drivers::simulation::chassis::stop(val.shared_state);
         } else {
             // Physical Driver
             drivers::chassis::stop(val.shared_state);
@@ -52,7 +50,7 @@ impl<T> From<Chassis<T>> for Chassis<Forward> {
     fn from(val: Devastator<T>) -> Devastator<Forward> {
         if val.shared_state.is_simulation {
             // Simulation Driver
-            simulation::drivers::chassis::forward(val.shared_state);
+            drivers::simulation::chassis::forward(val.shared_state);
         } else {
             // Physical Driver
             drivers::chassis::forward(val.shared_state);
@@ -67,7 +65,7 @@ impl<T> From<Chassis<T>> for Chassis<Backward> {
     fn from(val: Devastator<T>) -> Devastator<Backward> {
         if val.shared_state.is_simulation {
             // Simulation Driver
-            simulation::drivers::chassis::backward(val.shared_state);
+            drivers::simulation::chassis::backward(val.shared_state);
         } else {
             // Physical Driver
             drivers::chassis::backward(val.shared_state);

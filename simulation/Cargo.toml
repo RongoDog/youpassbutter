@@ -6,7 +6,6 @@ authors = ["Roni Peled <roni.peled1994@gmail.com>"]
 [dependencies]
 three = "0.3.1"
 mint = "0.5.0"
-control_system = { path = "../control_system" }
 state_machines = { path = "../state_machines" }
 
 [lib]

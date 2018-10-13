@@ -1,6 +1,9 @@
 extern crate three;
 extern crate mint;
+extern crate state_machines
 
+use state_machines::shared_state::{SharedState};
+use state_machines::chassis::{Chassis};
 use std::{thread, time};
 use three::Object;
 
@@ -8,6 +11,10 @@ const PARTS: u32 = 3;
 const INITIAL_Z_OFFSET: f32 = 0.5;
 
 fn main() {
+    let idle_chassis: Chassis<Idle> = 
+    // Create shared state
+    let shared_state: SharedState = SharedState::new(true);
+
     let title = "Devastator Simulator";
     
     let mut window = three::Window::new(title);

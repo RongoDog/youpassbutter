@@ -56,46 +56,53 @@ fn main() {
 
 */
 
+pub fn zero_step(gpio: &mut rppal::gpio::Gpio) {
+  gpio.write(STEP_1, rppal::gpio::Level::Low);
+  gpio.write(STEP_2, rppal::gpio::Level::Low);
+  gpio.write(STEP_3, rppal::gpio::Level::Low);
+  gpio.write(STEP_4, rppal::gpio::Level::Low);
+}
+
 pub fn first_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::High);
-    gpio.write(STEP_2, rppal::gpio::Level::Low);
-    gpio.write(STEP_3, rppal::gpio::Level::Low);
-    gpio.write(STEP_4, rppal::gpio::Level::Low);
+  gpio.write(STEP_1, rppal::gpio::Level::High);
+  gpio.write(STEP_2, rppal::gpio::Level::Low);
+  gpio.write(STEP_3, rppal::gpio::Level::Low);
+  gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
 pub fn second_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::High);
-    gpio.write(STEP_2, rppal::gpio::Level::High);
-    gpio.write(STEP_3, rppal::gpio::Level::Low);
-    gpio.write(STEP_4, rppal::gpio::Level::Low);
+  gpio.write(STEP_1, rppal::gpio::Level::High);
+  gpio.write(STEP_2, rppal::gpio::Level::High);
+  gpio.write(STEP_3, rppal::gpio::Level::Low);
+  gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
 pub fn third_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::Low);
-    gpio.write(STEP_2, rppal::gpio::Level::High);
-    gpio.write(STEP_3, rppal::gpio::Level::Low);
-    gpio.write(STEP_4, rppal::gpio::Level::Low);
+  gpio.write(STEP_1, rppal::gpio::Level::Low);
+  gpio.write(STEP_2, rppal::gpio::Level::High);
+  gpio.write(STEP_3, rppal::gpio::Level::Low);
+  gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
 pub fn fourth_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::Low);
-    gpio.write(STEP_2, rppal::gpio::Level::High);
-    gpio.write(STEP_3, rppal::gpio::Level::High);
-    gpio.write(STEP_4, rppal::gpio::Level::Low);
+  gpio.write(STEP_1, rppal::gpio::Level::Low);
+  gpio.write(STEP_2, rppal::gpio::Level::High);
+  gpio.write(STEP_3, rppal::gpio::Level::High);
+  gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
 pub fn fifth_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::Low);
-    gpio.write(STEP_2, rppal::gpio::Level::Low);
-    gpio.write(STEP_3, rppal::gpio::Level::High);
-    gpio.write(STEP_4, rppal::gpio::Level::Low);
+  gpio.write(STEP_1, rppal::gpio::Level::Low);
+  gpio.write(STEP_2, rppal::gpio::Level::Low);
+  gpio.write(STEP_3, rppal::gpio::Level::High);
+  gpio.write(STEP_4, rppal::gpio::Level::Low);
 }
 
 pub fn sixth_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::Low);
-    gpio.write(STEP_2, rppal::gpio::Level::Low);
-    gpio.write(STEP_3, rppal::gpio::Level::High);
-    gpio.write(STEP_4, rppal::gpio::Level::High);
+  gpio.write(STEP_1, rppal::gpio::Level::Low);
+  gpio.write(STEP_2, rppal::gpio::Level::Low);
+  gpio.write(STEP_3, rppal::gpio::Level::High);
+  gpio.write(STEP_4, rppal::gpio::Level::High);
 }
 
 pub fn seventh_step(gpio: &mut rppal::gpio::Gpio) {
@@ -106,18 +113,19 @@ pub fn seventh_step(gpio: &mut rppal::gpio::Gpio) {
 }
 
 pub fn eight_step(gpio: &mut rppal::gpio::Gpio) {
-    gpio.write(STEP_1, rppal::gpio::Level::High);
-    gpio.write(STEP_2, rppal::gpio::Level::Low);
-    gpio.write(STEP_3, rppal::gpio::Level::Low);
-    gpio.write(STEP_4, rppal::gpio::Level::High);
+  gpio.write(STEP_1, rppal::gpio::Level::High);
+  gpio.write(STEP_2, rppal::gpio::Level::Low);
+  gpio.write(STEP_3, rppal::gpio::Level::Low);
+  gpio.write(STEP_4, rppal::gpio::Level::High);
 }
 
 // This function should initialize the GPIO
 // NOTE THAT THIS SHOULD BE MOVED ONCES WE ADD PERIPHERALS
 pub fn initialize(gpio: &mut rppal::gpio::Gpio) -> bool {
-    gpio.set_mode(STEP_2, rppal::gpio::Mode::Output);
-    gpio.set_mode(STEP_3, rppal::gpio::Mode::Output);
-    gpio.set_mode(STEP_4, rppal::gpio::Mode::Output);
-    //stop(gpio);
-    return true;
+  gpio.set_mode(STEP_1, rppal::gpio::Mode::Output);
+  gpio.set_mode(STEP_2, rppal::gpio::Mode::Output);
+  gpio.set_mode(STEP_3, rppal::gpio::Mode::Output);
+  gpio.set_mode(STEP_4, rppal::gpio::Mode::Output);
+  zero_step(gpio);
+  return true;
 }
