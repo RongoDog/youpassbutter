@@ -6,7 +6,7 @@ use std::{thread, time};
 
 fn main() {
     let ten_millis = time::Duration::from_millis(10);
-    let gpio: rppal::gpio::Gpio = rppal::gpio::Gpio::new().unwrap();
+    let mut gpio: rppal::gpio::Gpio = rppal::gpio::Gpio::new().unwrap();
     drivers::chassis::physical::initialize(gpio);
 
     let mut step = 1;
