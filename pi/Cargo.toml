@@ -1,0 +1,8 @@
+[package]
+name = "pi"
+version = "0.1.0"
+authors = ["Roni Peled <roni.peled1994@gmail.com>"]
+
+[dependencies]
+drivers = { path = "../drivers" }
+rppal = "0.8.1"

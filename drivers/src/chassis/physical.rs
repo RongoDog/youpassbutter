@@ -11,6 +11,67 @@ const IN_2: u8 = 4;
 const IN_3: u8 = 5;
 const IN_4: u8 = 6;
 
+const STEP_1: u8 = 18;
+const STEP_2: u8 = 23;
+const STEP_3: u8 = 24;
+const STEP_4: u8 = 25;
+
+fn first_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::High);
+    gpio.write(STEP_2, rppal::gpio::Level::Low);
+    gpio.write(STEP_3, rppal::gpio::Level::Low);
+    gpio.write(STEP_4, rppal::gpio::Level::Low);
+}
+
+fn second_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::High);
+    gpio.write(STEP_2, rppal::gpio::Level::High);
+    gpio.write(STEP_3, rppal::gpio::Level::Low);
+    gpio.write(STEP_4, rppal::gpio::Level::Low);
+}
+
+fn third_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::Low);
+    gpio.write(STEP_2, rppal::gpio::Level::High);
+    gpio.write(STEP_3, rppal::gpio::Level::Low);
+    gpio.write(STEP_4, rppal::gpio::Level::Low);
+}
+
+fn fourth_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::Low);
+    gpio.write(STEP_2, rppal::gpio::Level::High);
+    gpio.write(STEP_3, rppal::gpio::Level::High);
+    gpio.write(STEP_4, rppal::gpio::Level::Low);
+}
+
+fn fifth_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::Low);
+    gpio.write(STEP_2, rppal::gpio::Level::Low);
+    gpio.write(STEP_3, rppal::gpio::Level::High);
+    gpio.write(STEP_4, rppal::gpio::Level::Low);
+}
+
+fn sixth_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::Low);
+    gpio.write(STEP_2, rppal::gpio::Level::Low);
+    gpio.write(STEP_3, rppal::gpio::Level::High);
+    gpio.write(STEP_4, rppal::gpio::Level::High);
+}
+
+fn seventh_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::Low);
+    gpio.write(STEP_2, rppal::gpio::Level::Low);
+    gpio.write(STEP_3, rppal::gpio::Level::Low);
+    gpio.write(STEP_4, rppal::gpio::Level::High);
+}
+
+fn eight_step(mut gpio: rppal::gpio::Gpio) {
+    gpio.write(STEP_1, rppal::gpio::Level::High);
+    gpio.write(STEP_2, rppal::gpio::Level::Low);
+    gpio.write(STEP_3, rppal::gpio::Level::Low);
+    gpio.write(STEP_4, rppal::gpio::Level::High);
+}
+
 // Some templates
 fn stop(mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.write(ENABLE_A, rppal::gpio::Level::Low);
@@ -51,6 +112,11 @@ fn initialize(mut gpio: rppal::gpio::Gpio) -> bool {
     gpio.set_mode(IN_2, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_3, rppal::gpio::Mode::Output);
     gpio.set_mode(IN_4, rppal::gpio::Mode::Output);
-    stop(gpio);
+
+    gpio.set_mode(STEP_1, rppal::gpio::Mode::Output);
+    gpio.set_mode(STEP_2, rppal::gpio::Mode::Output);
+    gpio.set_mode(STEP_3, rppal::gpio::Mode::Output);
+    gpio.set_mode(STEP_4, rppal::gpio::Mode::Output);
+    //stop(gpio);
     return true;
 }
