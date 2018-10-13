@@ -7,7 +7,7 @@ use std::{thread, time};
 fn main() {
     let ten_millis = time::Duration::from_millis(10);
     let mut gpio: rppal::gpio::Gpio = rppal::gpio::Gpio::new().unwrap();
-    drivers::chassis::initialize(gpio);
+    drivers::chassis::physical::initialize(gpio);
 
     let mut step = 1;
     while true {
@@ -24,7 +24,7 @@ fn main() {
             7 => drivers::chassis::physical::seventh_step(gpio),
             8 => drivers::chassis::physical::eight_step(gpio)
         }
-        step ++;
+        step += 1;
         thread::sleep(ten_millis*100);
 
     }
