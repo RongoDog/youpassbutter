@@ -1,5 +1,5 @@
-use simulation::
+extern crate youpassbutter;
 
-fn run_simulation {
-
+fn main() {
+  youpassbutter::simulation::run_simulation();
 }

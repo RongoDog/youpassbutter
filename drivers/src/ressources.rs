@@ -2,6 +2,7 @@ extern crate rppal;
 
 use std::sync::{Arc, Mutex};
 
+#[derive(Clone)]
 pub struct HardwareInterfacePointers {
   pub gpio_mutex: Arc<Mutex<rppal::gpio::Gpio>>,
 }
