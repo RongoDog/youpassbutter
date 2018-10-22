@@ -1,9 +1,6 @@
-extern crate drivers;
-
-pub mod user_control;
-
 use state_machines::shared_state::{SharedState};
 use simulation_drivers;
+use drivers;
 
 #[derive(PartialEq)]
 pub enum States {

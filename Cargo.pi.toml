@@ -6,7 +6,7 @@ authors = ["Roni Peled <roni.peled1994@gmail.com>"]
 [dependencies]
 three = "0.3.1"
 mint = "0.5.0"
-drivers = { path = "../drivers" }
+rppal = "0.8.1"
 
 [lib]
 name = "youpassbutter"
