@@ -1,0 +1,19 @@
+{
+  "name": "lambo_sim",
+  "version": "1.0.0",
+  "description": "simulation of devastator behaviour remotely",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd src && lite-server && cd .."
+  },
+  "keywords": [
+    "js",
+    "three.js",
+    "html",
+    "socket.io"
+  ],
+  "author": "Tenaimi Okurude",
+  "license": "MIT",
+  "dependencies": {}
+}
