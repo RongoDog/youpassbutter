@@ -1,6 +1,7 @@
-extern crate drivers;
+extern crate youpassbutter;
 extern crate mint;
 
+use youpassbutter::drivers;
 use std::sync::{Arc, Mutex};
 use std::time::{SystemTime};
 
