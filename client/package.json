@@ -15,5 +15,7 @@
   ],
   "author": "Tenaimi Okurude",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "socket.io": "^2.1.1"
+  }
 }
