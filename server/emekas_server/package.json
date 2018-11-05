@@ -1,0 +1,17 @@
+{
+  "name": "youpassbutter_try1",
+  "version": "0.0.1",
+  "description": "You Pass Butter Trial",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.5.6",
+    "express": "^4.15.2"
+  }
+}
