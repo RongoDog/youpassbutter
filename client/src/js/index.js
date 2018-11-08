@@ -27,28 +27,31 @@ camera.position.set(0, 0, 7);
 function animate() {
     requestAnimationFrame(animate);
 
-    var xSpeed = 3.0;
-    var ySpeed = 3.0;
     renderer.render(scene, camera);
 };
 animate();
+onDocumentKeyDown();
+
+var xSpeed = 3.0;
+var ySpeed = 3.0;
 
 function onDocumentKeyDown(event) {
     console.log(event);
-    /** 
-    var keyCode = event.which;
-    if (keyCode == 38) {
+    
+    /*var keyCode = new KeyboardEvent(event); 
+    
+    if (keyCode.key == 'a') {           //using key a code 65
         cube.position.y += ySpeed;
-    } else if (keyCode == 40) {
+    } else if (keyCode.key == 's') {    //key s code 83
         cube.position.y -= ySpeed;
-    } else if (keyCode == 37) {
+    } else if (keyCode.key == 'd') {    //key d code 68
         cube.position.x -= xSpeed;
-    } else if (keyCode == 39) {
+    } else if (keyCode.key == 'w') {    //key w code 87
         cube.position.x += xSpeed;
-    } else if (keyCode == 32) {
+    } else if (keyCode.key == 'q') {    //key q code 81
         cube.position.set(0, 0, 0);
-    }
-    */
+    }*/
+    
 };
 
 window.addEventListener("load", (e) => {

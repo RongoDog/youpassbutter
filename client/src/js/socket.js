@@ -1,5 +1,6 @@
 // making connection to server 
-var socket = io.connect('http://smokey.xyz');
+var socket = io.connect('http://localhost:3000');
+socket.emit('join', {name: 'client'});
 
 // query dom
 var forward = document.getElementById('forward');
@@ -14,8 +15,53 @@ left.value = "left";
 right.value = "right";
 reverse.value = "reverse";
 
-// emit events on button press
-forward.addEventListener('click', function(){
+
+// emitting message on keyboard press events
+var keyCode = new KeyboardEvent(event);
+
+window.addEventListener('load', (event) => {
+    event.preventDefault();
+    document.addEventListener('keypress', (event) => {
+        if (event.keyCode.key === "w") {
+            command = {command: "forward"};
+            socket.emit('bot-command', command, (data) => {
+                if (data.length > 0){
+                    direction.innerHTML = "moving forward";
+                }
+            });
+    
+        }else if (event.keyCode.key === 'a'){
+            command = {command: "left-turn"};
+            socket.emit('bot-command', command, (data) => {
+                if(data.length > 0){
+                    direction.innerHTML = "turning left";
+                }
+            });
+    
+        }else if (event.keyCode.key === 'd'){
+            command = {command: "right-turn"};
+            socket.emit('bot-command', command, (data) => {
+                if(data.length > 0){
+                    direction.innerHTML = "turning right";
+                }
+            });
+    
+        }else if (event.keyCode.key === 's'){
+            command = {command: "backward"};
+            socket.emit('bot-command', command, (data) => {
+                if(data.length > 0){
+                    direction.innerHTML = "moving backward";
+                }
+            });
+        }
+    })
+})
+
+
+
+
+// emit events on button click
+/*forward.addEventListener('click', function(){
     command = {command: "move forward"};
     socket.emit('bot-command', command, (data) => {
         if (data.length > 0){
@@ -49,8 +95,6 @@ reverse.addEventListener('click', function(){
             direction.innerHTML = "moving backward";
         }
     });
-})
+})*/
 
-// listen for events
-socket.on('bot-co')
 
