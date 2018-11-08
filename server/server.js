@@ -7,6 +7,7 @@ var server = app.listen(port, function(){
     console.log('listening to request on port 3000');
 });
 
+var command = "idle";
 // Socket setup
 var io = socket(server);
 
@@ -20,6 +21,11 @@ io.on('connection', function(socket){
     
     //Sending the bot commands to the Rasp_pi
     socket.on('bot-command', function(data){
+        command = data;
         io.sockets.in('raspberry_pi').emit('bot-command', data);  // not sure wether this sends data to the pi 
     });
 });
+
+app.get('/', function (req, res) {
+  res.send(command);
+})
