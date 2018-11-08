@@ -4,7 +4,7 @@
 */
 extern crate rppal; 
 
-use ressources::{HardwareInterfacePointers};
+use drivers::ressources::{HardwareInterfacePointers};
 
 const ENABLE_A: u8 = 26;
 const ENABLE_B: u8 = 22;
