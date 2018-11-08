@@ -47,24 +47,24 @@ pub fn backward(pointers: HardwareInterfacePointers) -> bool {
   return true;
 }
 
-pub fn forwardright(pointers: HardwareInterfacePointers) -> bool {
+pub fn right(pointers: HardwareInterfacePointers) -> bool {
   let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(ENABLE_A, rppal::gpio::Level::High);
   gpio.write(ENABLE_B, rppal::gpio::Level::High);
-  gpio.write(IN_2, rppal::gpio::Level::Low);
+  gpio.write(IN_2, rppal::gpio::Level::High);
   gpio.write(IN_1, rppal::gpio::Level::Low);
   gpio.write(IN_4, rppal::gpio::Level::Low);
   gpio.write(IN_3, rppal::gpio::Level::High);
   return true;
 }
 
-pub fn forwardleft(pointers: HardwareInterfacePointers) -> bool {
+pub fn left(pointers: HardwareInterfacePointers) -> bool {
   let mut gpio = pointers.gpio_mutex.lock().unwrap();
   gpio.write(ENABLE_A, rppal::gpio::Level::High);
   gpio.write(ENABLE_B, rppal::gpio::Level::High);
   gpio.write(IN_2, rppal::gpio::Level::Low);
   gpio.write(IN_1, rppal::gpio::Level::High);
-  gpio.write(IN_4, rppal::gpio::Level::Low);
+  gpio.write(IN_4, rppal::gpio::Level::High);
   gpio.write(IN_3, rppal::gpio::Level::Low);
   return true;
 }
