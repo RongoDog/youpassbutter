@@ -14,7 +14,7 @@ fn main() {
   let mut chassis: Chassis = Chassis::new(shared_state);
 
   // Connect to the url and call the closure
-  if let Err(error) = connect("ws://127.0.0.1:3012", |out| {
+  if let Err(error) = connect("ws://127.0.0.1:3000", |out| {
       // Queue a message to be sent when the WebSocket is open
       if out.send("Hello WebSocket").is_err() {
           println!("Websocket couldn't queue an initial message.")
