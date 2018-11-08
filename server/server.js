@@ -7,13 +7,19 @@ var server = app.listen(port, function(){
     console.log('listening to request on port 3000');
 });
 
-//socket setup
+// Socket setup
 var io = socket(server);
 
 io.on('connection', function(socket){
-    console.log('made socket connection', socket.id);
-
+    // Clients setup
+    socket.on('join', function(data){
+        socket.join(data.name);
+        console.log(data.name + 'has joined');
+    })
+    //console.log('made socket connection', socket.id);
+    
+    //Sending the bot commands to the Rasp_pi
     socket.on('bot-command', function(data){
-        io.sockets.emit('bot-command', data);  // not sure wether this sends data to the pi 
+        io.sockets.in('raspberry_pi').emit('bot-command', data);  // not sure wether this sends data to the pi 
     });
 });
