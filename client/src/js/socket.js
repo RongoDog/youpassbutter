@@ -1,4 +1,6 @@
 // making connection to server 
+var socket = io.connect('http://localhost:3000');
+socket.emit('join', {name: 'client'});
 
 // query dom
 var forward = document.getElementById('forward');
@@ -45,8 +47,6 @@ reverse.addEventListener('click', function(){
             direction.innerHTML = "moving backward";
         }
     });
-})
+})*/
 
-// listen for events
-socket.on('bot-co')
 
