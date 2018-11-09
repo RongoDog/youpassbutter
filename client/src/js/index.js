@@ -1,6 +1,11 @@
 // initialize stats (fps display)
-//stats = new Stats();
-//document.body.appendChild(stats.dom);
+var socket = io.connect('http://localhost:3000');
+
+socket.emit("join", "client");
+
+socket.on('bot-command', (data) => {
+    console.log(data);
+});
 
 // creating a scene with some light and a camera to view it
 var scene = new THREE.Scene();
@@ -33,27 +38,40 @@ function animate() {
 };
 animate();
 
-function onDocumentKeyDown(event) {
-    console.log(event);
-    /** 
-    var keyCode = event.which;
-    if (keyCode == 38) {
-        cube.position.y += ySpeed;
-    } else if (keyCode == 40) {
-        cube.position.y -= ySpeed;
-    } else if (keyCode == 37) {
-        cube.position.x -= xSpeed;
-    } else if (keyCode == 39) {
-        cube.position.x += xSpeed;
-    } else if (keyCode == 32) {
-        cube.position.set(0, 0, 0);
-    }
-    */
-};
-
 window.addEventListener("load", (e) => {
     document.addEventListener("keypress", (event) => {
         event.preventDefault();
-        console.log(event);
+        switch (event.code) {
+            case "KeyW":
+                socket.emit('bot-command', "forward", (data) => {
+                    if (data.length > 0){
+                        console.log("Sent Forward Command");
+                    }
+                });
+                break;
+            case "KeyA":
+                socket.emit('bot-command', "left", (data) => {
+                    if (data.length > 0){
+                        console.log("Sent Left Command");
+                    }
+                });
+                break;
+            case "KeyD":
+                socket.emit('bot-command', "right", (data) => {
+                    if (data.length > 0){
+                        console.log("Sent Right Command");
+                    }
+                });
+                break;
+            case "KeyS":
+                socket.emit('bot-command', "backward", (data) => {
+                    if (data.length > 0){
+                        console.log("Sent Backward Command");
+                    }
+                });
+                break;
+            default:
+                break;
+        }
     });
 });

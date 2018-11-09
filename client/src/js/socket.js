@@ -1,5 +1,4 @@
 // making connection to server 
-var socket = io.connect('http://smokey.xyz');
 
 // query dom
 var forward = document.getElementById('forward');
@@ -16,12 +15,9 @@ reverse.value = "reverse";
 
 // emit events on button press
 forward.addEventListener('click', function(){
+    console.log("clicked");
     command = {command: "move forward"};
-    socket.emit('bot-command', command, (data) => {
-        if (data.length > 0){
-            direction.innerHTML = "moving forward";
-        }
-    });
+
 })
 
 left.addEventListener('click', function(){
