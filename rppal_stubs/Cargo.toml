@@ -1,9 +1,0 @@
-[package]
-name = "rppal"
-version = "0.1.0"
-authors = ["Roni Peled <roni.peled1994@gmail.com>"]
-
-
-[lib]
-name = "rppal"
-path = "src/lib.rs"
