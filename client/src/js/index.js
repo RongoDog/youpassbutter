@@ -35,64 +35,26 @@ function animate() {
     renderer.render(scene, camera);
 };
 animate();
-onDocumentKeyDown();
 
 var xSpeed = 3.0;
 var ySpeed = 3.0;
 
-<<<<<<< HEAD
-=======
-function onDocumentKeyDown(event) {
-    console.log(event);
-    
-    /*var keyCode = new KeyboardEvent(event); 
-    
-    if (keyCode.key == 'a') {           //using key a code 65
-        cube.position.y += ySpeed;
-    } else if (keyCode.key == 's') {    //key s code 83
-        cube.position.y -= ySpeed;
-    } else if (keyCode.key == 'd') {    //key d code 68
-        cube.position.x -= xSpeed;
-    } else if (keyCode.key == 'w') {    //key w code 87
-        cube.position.x += xSpeed;
-    } else if (keyCode.key == 'q') {    //key q code 81
-        cube.position.set(0, 0, 0);
-    }*/
-    
-};
-
->>>>>>> 21414e0c2320bc8ede5c492f2344115573bee351
 window.addEventListener("load", (e) => {
     document.addEventListener("keypress", (event) => {
         event.preventDefault();
+        console.log(event);
         switch (event.code) {
             case "KeyW":
-                socket.emit('bot-command', "forward", (data) => {
-                    if (data.length > 0){
-                        console.log("Sent Forward Command");
-                    }
-                });
+                socket.emit('bot-command', "forward");
                 break;
             case "KeyA":
-                socket.emit('bot-command', "left", (data) => {
-                    if (data.length > 0){
-                        console.log("Sent Left Command");
-                    }
-                });
+                socket.emit('bot-command');
                 break;
             case "KeyD":
-                socket.emit('bot-command', "right", (data) => {
-                    if (data.length > 0){
-                        console.log("Sent Right Command");
-                    }
-                });
+                socket.emit('bot-command');
                 break;
             case "KeyS":
-                socket.emit('bot-command', "backward", (data) => {
-                    if (data.length > 0){
-                        console.log("Sent Backward Command");
-                    }
-                });
+                socket.emit('bot-command', "backward");
                 break;
             default:
                 break;
