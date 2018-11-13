@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = pi_devastator
+TARGET = robot 
 INCLUDEPATH += .
 
 SOURCES += ./src/main.cpp \
