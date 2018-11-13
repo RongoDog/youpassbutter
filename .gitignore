@@ -1,5 +1,10 @@
 server/node_modules/*
 
 rust_experiment/target/*
+
+*.o
 robot/Makefile
-robot/robot_devastator.app/*
+robot/external/sioclient/*
+robot/external/boost/stage/*
+robot/external/boost/project-config.jam.4
+robot/robot.app/*
