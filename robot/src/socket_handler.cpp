@@ -1,8 +1,8 @@
 #include <iostream>
-#include <unistd.h>
-#include <linux/reboot.h>
 #include "socket_handler.h"
 #include "chassis.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #define BIND_EVENT(IO,EV,FN) \
     do{ \
@@ -41,7 +41,7 @@ void SocketHandler::on_command(std::string const& name,message::ptr const& data,
     } else if (command_string == "right") {
         _chassis->give_command(right_command);
     } else if (command_string == "turn-off") {
-        reboot(LINUX_REBOOT_CMD_POWER_OFF);
+        system("shutdown -P now");
     } else {
         std::cerr << "Invalid Command\n";
     }
