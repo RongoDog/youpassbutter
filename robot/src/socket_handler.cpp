@@ -1,4 +1,6 @@
 #include <iostream>
+#include <unistd.h>
+#include <linux/reboot.h>
 #include "socket_handler.h"
 #include "chassis.h"
 
@@ -38,6 +40,8 @@ void SocketHandler::on_command(std::string const& name,message::ptr const& data,
         _chassis->give_command(left_command);
     } else if (command_string == "right") {
         _chassis->give_command(right_command);
+    } else if (command_string == "turn-off") {
+        reboot(LINUX_REBOOT_CMD_POWER_OFF);
     } else {
         std::cerr << "Invalid Command\n";
     }

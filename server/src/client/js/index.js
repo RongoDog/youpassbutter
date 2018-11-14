@@ -55,6 +55,9 @@ window.addEventListener("load", (e) => {
             case "KeyS":
                 socket.emit('bot-command', "backward");
                 break;
+            case "KeyO":
+                socket.emit('bot-command', "turn-off");
+                break;
             default:
                 break;
         }
