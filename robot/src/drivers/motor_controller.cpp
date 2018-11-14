@@ -64,6 +64,7 @@ void motors_off() {
 
 
 void initialize_motors() {
+	gpioInitialise();
 	gpioSetMode(OUTPUT_E_RIGHT, PI_OUTPUT);
 	gpioSetMode(OUTPUT_IN_4_RIGHT, PI_OUTPUT);
 	gpioSetMode(OUTPUT_IN_3_RIGHT, PI_OUTPUT);
