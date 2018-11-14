@@ -19,7 +19,7 @@ SocketHandler::SocketHandler(Chassis *chassis) :
     socket::ptr sock = _io->socket();
     BIND_EVENT(sock,"bot-command", std::bind(&SocketHandler::on_command,this,_1,_2,_3,_4));
     _io->set_socket_open_listener(std::bind(&SocketHandler::on_connected,this,_1));
-    _io->connect("http://127.0.0.1:3000");
+    _io->connect("http://smokesong.xyz:3000");
 }
 
 void SocketHandler::on_connected(std::string const& nsp)

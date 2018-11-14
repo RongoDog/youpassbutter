@@ -1,5 +1,5 @@
 // initialize stats (fps display)
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect('http://smokesong.xyz:3000');
 
 socket.emit("join", "client");
 
@@ -42,16 +42,15 @@ var ySpeed = 3.0;
 window.addEventListener("load", (e) => {
     document.addEventListener("keypress", (event) => {
         event.preventDefault();
-        console.log(event);
         switch (event.code) {
             case "KeyW":
                 socket.emit('bot-command', "forward");
                 break;
             case "KeyA":
-                socket.emit('bot-command');
+                socket.emit('bot-command', "left");
                 break;
             case "KeyD":
-                socket.emit('bot-command');
+                socket.emit('bot-command', "right");
                 break;
             case "KeyS":
                 socket.emit('bot-command', "backward");
