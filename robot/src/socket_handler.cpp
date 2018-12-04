@@ -3,6 +3,16 @@
 #include <stdlib.h>
 #include "socket_handler.h"
 
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
+
+typedef websocketpp::server<websocketpp::config::asio> server;
+
+using websocketpp::connection_hdl;
+using websocketpp::lib::placeholders::_1;
+using websocketpp::lib::placeholders::_2;
+using websocketpp::lib::bind;
+
 #define BIND_EVENT(IO,EV,FN) \
     do{ \
         socket::event_listener_aux l = FN;\

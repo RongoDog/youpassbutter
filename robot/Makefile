@@ -22,7 +22,7 @@ LINKOPTS = -g -stdlib=libc++ \
 		-pthread
 EXEC=robot
 
-INCPATH = -Iinclude -I./external/sioclient/build/include -Iexternal/boost
+INCPATH = -Iinclude -I./external/sioclient/build/include -Iexternal/boost -Iexternal/websocketpp/websocketpp/
 
 OBJECTS_MAC= mac_main.o \
   mac_chassis.o \
@@ -58,7 +58,8 @@ chassis.o: src/chassis.cpp include/chassis.h \
 
 motor_controller.o: src/drivers/motor_controller.cpp include/drivers/pinout_definitions.h \
 		include/drivers/motor_controller.h
-	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o motor_controller.o src/drivers/motor_controller.cpp
+	$(CXX_MAC) $(CCOPTS_MAC) $
+	(INCPATH) -o motor_controller.o src/drivers/motor_controller.cpp
 
 mac: $(EXEC_MAC)
 
