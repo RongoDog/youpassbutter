@@ -3,8 +3,8 @@ server/node_modules/*
 rust_experiment/target/*
 
 *.o
-robot/Makefile
+robot/external/websocketpp/*
 robot/external/sioclient/*
+robot/external/*
 robot/external/boost/stage/*
 robot/external/boost/project-config.jam.4
-robot/robot.app/*

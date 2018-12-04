@@ -3,7 +3,18 @@
 #include <iostream>
 
 extern "C" {
-  #include <pigpio.h>
+  //#include <pigpio.h>
+}
+
+#define PI_OUTPUT 1
+void gpioSetMode(int a, int b) {
+	return;
+}
+void gpioWrite(int a, int b) {
+	return;
+}
+void gpioInitialise() {
+	return;
 }
 
 void drive_forward() {

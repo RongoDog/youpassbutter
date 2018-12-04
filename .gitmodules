@@ -1,3 +1,6 @@
 [submodule "robot/external/sioclient"]
 	path = robot/external/sioclient
 	url = https://github.com/socketio/socket.io-client-cpp
+[submodule "robot/external/websocketpp"]
+	path = robot/external//websocketpp
+	url = https://github.com/zaphoyd/websocketpp.git
