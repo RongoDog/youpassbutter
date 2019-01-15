@@ -22,18 +22,43 @@ LINKOPTS = -g -stdlib=libc++ \
 		-pthread
 EXEC=robot
 
-INCPATH = -Iinclude -I./external/sioclient/build/include -Iexternal/boost -Iexternal/websocketpp/websocketpp/
+INCPATH = -Iinclude -I./external/sioclient/build/include \
+		-Iexternal/boost \
+		-Iexternal/websocketpp/websocketpp
 
 OBJECTS_MAC= mac_main.o \
   mac_chassis.o \
-  mac_socket_handler.o \
-	mac_motor_controller.o
+  mac_communications.o \
+	mac_motor_controller.o \
 OBJECTS= main.o \
   chassis.o \
-  socket_handler.o \
-	motor_controller.o
+  communications.o \
+	motor_controller.o \
 
 all: $(EXEC)
+
+$(EXEC): $(OBJECTS)
+	$(CXX): $(LINKOPTS) -o $@ $^
+
+main.o: src/main.cpp \
+		include/communications.h \
+		include/chassis.h \
+		include/drivers/motor_controller.h
+	$(CXX) $(CCOPTS) $(INCPATH) -o main.o src/main.cpp
+
+communications.o: src/communications.cpp \
+		include/communications.h \
+		include/chassis.h \
+		include/drivers/motor_controller.h
+	$(CXX) $(CCOPTS) $(INCPATH) -o communications.o src/communications.cpp
+
+chassis.o: src/chassis.cpp include/chassis.h \
+		include/drivers/motor_controller.h
+	$(CXX) $(CCOPTS) $(INCPATH) -o chassis.o src/chassis.cpp
+
+motor_controller.o: src/drivers/motor_controller.cpp include/drivers/pinout_definitions.h \
+		include/drivers/motor_controller.h
+	$(CXX) $(CCOPTS) $(INCPATH) -o motor_controller.o src/drivers/motor_controller.cpp
 
 mac: $(EXEC_MAC)
 
@@ -41,42 +66,16 @@ $(EXEC_MAC): $(OBJECTS_MAC)
 	$(CXX_MAC) $(LINKOPTS_MAC) -o $@ $^
 
 mac_main.o: src/main.cpp \
-		include/socket_handler.h \
-		include/chassis.h \
-		include/drivers/motor_controller.h
-	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o main.o src/main.cpp
-
-socket_handler.o: src/socket_handler.cpp \
-		include/socket_handler.h \
-		include/chassis.h \
-		include/drivers/motor_controller.h
-	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o socket_handler.o src/socket_handler.cpp
-
-chassis.o: src/chassis.cpp include/chassis.h \
-		include/drivers/motor_controller.h
-	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o chassis.o src/chassis.cpp
-
-motor_controller.o: src/drivers/motor_controller.cpp include/drivers/pinout_definitions.h \
-		include/drivers/motor_controller.h
-	$(CXX_MAC) $(CCOPTS_MAC) $
-	(INCPATH) -o motor_controller.o src/drivers/motor_controller.cpp
-
-mac: $(EXEC_MAC)
-
-$(EXEC): $(OBJECTS)
-	$(CXX) $(LINKOPTS) -o $@ $^
-
-mac_main.o: src/main.cpp \
-		include/socket_handler.h \
+		include/communications.h \
 		include/chassis.h \
 		include/drivers/motor_controller.h
 	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o mac_main.o src/main.cpp
 
-mac_socket_handler.o: src/socket_handler.cpp \
-		include/socket_handler.h \
+mac_communications.o: src/communications.cpp \
+		include/communications.h \
 		include/chassis.h \
 		include/drivers/motor_controller.h
-	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o mac_socket_handler.o src/socket_handler.cpp
+	$(CXX_MAC) $(CCOPTS_MAC) $(INCPATH) -o mac_communications.o src/communications.cpp
 
 mac_chassis.o: src/chassis.cpp include/chassis.h \
 		include/drivers/motor_controller.h
