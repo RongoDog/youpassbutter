@@ -10,8 +10,16 @@ app.get("/index.html", function(req, res) {
     res.sendFile(path.join(__dirname + "/client/index.html"));
 });
 
-app.get("/js/index.js", function(req, res) {
-    res.sendFile(path.join(__dirname + "/client/js/index.js"));
+app.get("/main.js", function(req, res) {
+    res.sendFile(path.join(__dirname + "/main.js"));
+});
+
+app.get("/signaling.js", function(req, res) {
+    res.sendFile(path.join(__dirname + "/signaling.js"));
+});
+
+app.get("/visualization.js", function(req, res) {
+    res.sendFile(path.join(__dirname + "/visualization.js"));
 });
 
 var server = app.listen(port, "0.0.0.0", function(){
