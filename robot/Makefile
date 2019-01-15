@@ -11,7 +11,7 @@ EXEC_MAC=mac_robot
 
 CXX = g++
 CCOPTS = -c -g -stdlib=libc++ -std=c++11
-LINKOPTS = -g -stdlib=libc++ \
+LINKOPTS = -g \
 		-lrt \
 		-lpigpio \
 		-lsioclient \
@@ -29,11 +29,11 @@ INCPATH = -Iinclude -I./external/sioclient/build/include \
 OBJECTS_MAC= mac_main.o \
   mac_chassis.o \
   mac_communications.o \
-	mac_motor_controller.o \
+	mac_motor_controller.o
 OBJECTS= main.o \
   chassis.o \
   communications.o \
-	motor_controller.o \
+	motor_controller.o
 
 all: $(EXEC)
 
