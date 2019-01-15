@@ -11,15 +11,15 @@ app.get("/index.html", function(req, res) {
 });
 
 app.get("/main.js", function(req, res) {
-    res.sendFile(path.join(__dirname + "/main.js"));
+    res.sendFile(path.join(__dirname + "/client/main.js"));
 });
 
 app.get("/signaling.js", function(req, res) {
-    res.sendFile(path.join(__dirname + "/signaling.js"));
+    res.sendFile(path.join(__dirname + "/client/signaling.js"));
 });
 
 app.get("/visualization.js", function(req, res) {
-    res.sendFile(path.join(__dirname + "/visualization.js"));
+    res.sendFile(path.join(__dirname + "/client/visualization.js"));
 });
 
 var server = app.listen(port, "0.0.0.0", function(){
