@@ -10,19 +10,20 @@ LINKOPTS_MAC = -g -stdlib=libc++ \
 EXEC_MAC=mac_robot
 
 CXX = g++
-CCOPTS = -c -g -stdlib=libc++ -std=c++11
-LINKOPTS = -g \
+CCOPTS = -c -g -std=c++11
+LINKOPTS = -g -std=c++11 \
 		-lrt \
 		-lpigpio \
-		-lsioclient \
+		-Lexternal/boost/stage/lib \
 		-lboost_random \
 		-lboost_system \
 		-lboost_date_time \
-		-L./external/sioclient/build/lib/Release/ \
+		-Lexternal/sioclient/build/lib/Release \
+		-lsioclient \
 		-pthread
 EXEC=robot
 
-INCPATH = -Iinclude -I./external/sioclient/build/include \
+INCPATH = -Iinclude -Iexternal/sioclient/build/include \
 		-Iexternal/boost \
 		-Iexternal/websocketpp/websocketpp
 
@@ -38,7 +39,7 @@ OBJECTS= main.o \
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS)
-	$(CXX): $(LINKOPTS) -o $@ $^
+	$(CXX) $(LINKOPTS) -o $@ $^
 
 main.o: src/main.cpp \
 		include/communications.h \

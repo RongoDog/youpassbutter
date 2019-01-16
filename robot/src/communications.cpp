@@ -8,9 +8,7 @@ using std::placeholders::_1;
 using std::placeholders::_2;
 using std::placeholders::_3;
 using std::placeholders::_4;
-
 typedef websocketpp::client<websocketpp::config::asio_client> websocket_client;
-
 #define BIND_EVENT(IO,EV,FN) \
     do{ \
         socket::event_listener_aux l = FN;\
