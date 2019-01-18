@@ -85,6 +85,8 @@ function signal(socket, onStream, onError, onClose, onMessage) {
   socket.emit("webrtc-relay", JSON.stringify(request));
 
   this.onMessage = function(msg) {
+    var what = msg.what;
+    var data = msg.data;
     switch (what) {
       case "offer":
         var mediaConstraints = {
