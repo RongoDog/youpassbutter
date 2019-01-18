@@ -28,7 +28,7 @@ CommunicationsModule::CommunicationsModule(Chassis *chassis) :
     _io->connect("http://smokesong.xyz:3000");
 
     // The following describes the uv4l websocket
-    std::string uri = "ws://localhost:8080";
+    std::string uri = "ws://localhost:3000/webrtc";
     try {
         // Set logging to be pretty verbose (everything except message payloads)
         _c->set_access_channels(websocketpp::log::alevel::all);
@@ -119,7 +119,6 @@ void CommunicationsModule::on_command(std::string const& name, sio::message::ptr
 
 void CommunicationsModule::on_webrtc_relay(std::string const& name, sio::message::ptr const& data, bool hasAck, sio::message::list &ack_resp) {
     std::string stringified_json = data->get_string();
-    std::cout << stringified_json;
     websocketpp::lib::error_code ec;
     _c->send(m_hdl, stringified_json, websocketpp::frame::opcode::text,ec);;
     // The most likely error that we will get is that the connection is
@@ -134,7 +133,6 @@ void CommunicationsModule::on_webrtc_relay(std::string const& name, sio::message
 }
 
 void CommunicationsModule::on_uv4l_message(websocketpp::connection_hdl hdl, message_ptr msg) {
-    std::cout << "Message Received: " + msg->get_payload();
     _c->get_alog().write(websocketpp::log::alevel::app, "Received Reply: "+msg->get_payload());
     _io->socket()->emit("webrtc-relay", sio::string_message::create(msg->get_payload()));
 }
@@ -150,7 +148,6 @@ void CommunicationsModule::on_uv4l_close(websocketpp::connection_hdl hdl) {
 }
 
 void CommunicationsModule::on_uv4l_fail(websocketpp::connection_hdl hdl) {
-    std:cerr << "Failure on websocket connection";
     _c->get_alog().write(websocketpp::log::alevel::app, 
         "Connection failed, stopping signaling!");
 }
