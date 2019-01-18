@@ -14,7 +14,7 @@ CCOPTS = -c -g -std=c++11
 LINKOPTS = -g -std=c++11 \
 		-lrt \
 		-lpigpio \
-		-Lexternal/boost/stage/lib \
+		-L/usr/local/lib \
 		-lboost_random \
 		-lboost_system \
 		-lboost_date_time \
@@ -23,9 +23,9 @@ LINKOPTS = -g -std=c++11 \
 		-pthread
 EXEC=robot
 
-INCPATH = -Iinclude -Iexternal/sioclient/build/include \
-		-Iexternal/boost \
-		-Iexternal/websocketpp/websocketpp
+INCPATH = -Iinclude  -I/usr/local/include/boost \
+		-Iexternal/sioclient/build/include \
+		-Iexternal/sioclient/lib/websocketpp/websocketpp
 
 OBJECTS_MAC= mac_main.o \
   mac_chassis.o \
