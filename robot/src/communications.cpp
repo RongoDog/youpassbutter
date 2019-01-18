@@ -119,6 +119,7 @@ void CommunicationsModule::on_command(std::string const& name, sio::message::ptr
 
 void CommunicationsModule::on_webrtc_relay(std::string const& name, sio::message::ptr const& data, bool hasAck, sio::message::list &ack_resp) {
     std::string stringified_json = data->get_string();
+    std::cout << stringified_json;
     websocketpp::lib::error_code ec;
     _c->send(m_hdl, stringified_json, websocketpp::frame::opcode::text,ec);;
     // The most likely error that we will get is that the connection is
@@ -149,6 +150,7 @@ void CommunicationsModule::on_uv4l_close(websocketpp::connection_hdl hdl) {
 }
 
 void CommunicationsModule::on_uv4l_fail(websocketpp::connection_hdl hdl) {
+    std:cerr << "Failure on websocket connection";
     _c->get_alog().write(websocketpp::log::alevel::app, 
         "Connection failed, stopping signaling!");
 }
