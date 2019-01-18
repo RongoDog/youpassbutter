@@ -43,16 +43,13 @@ io.on("connection", (socket) => {
     //The join signal allows us to begin communication and
     //enable authentication.
     socket.on("join", (data) => {
-        if (data.id === "raspberry_pi" && 
-            data.password === process.env.RASPI_PASS
-        ) {
+        if (data.id === "raspberry_pi") {
             socket.join("raspberry_pi");
             connectionState.raspberryPiConnected = true;
             id = "raspberry_pi";
             io.sockets.in("client").emit("is_pi_connected", true)
         }
         else if (data.id === "client" &&
-            data.password === process.env.CLIENT_PASS &&
             connectionState.clientConnected === false
         ) {
             socket.join("client");
@@ -69,6 +66,14 @@ io.on("connection", (socket) => {
         }
         io.sockets.in("raspberry_pi").emit("bot-command", data);
     });
+
+    socket.on("webrtc-relay", (data) => {
+        if (id === "client") {
+            io.sockets.in("raspberry_pi").emit("webrtc-relay", data);
+        } else {
+            io.sockets.in("client").emit("webrtc-relay", data);
+        }
+    })
 
 
     //We disconnect from the state
