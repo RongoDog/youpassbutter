@@ -8,20 +8,20 @@ using std::placeholders::_1;
 using std::placeholders::_2;
 using std::placeholders::_3;
 using std::placeholders::_4;
-typedef websocketpp::client<websocketpp::config::asio_client> websocket_client;
+
 #define BIND_EVENT(IO,EV,FN) \
     do{ \
-        socket::event_listener_aux l = FN;\
+        sio::socket::event_listener_aux l = FN;\
         IO->on(EV,l);\
     } while(0)
 
 CommunicationsModule::CommunicationsModule(Chassis *chassis) :
-    _io(new client()),
+    _io(new sio::client()),
     _c(new websocket_client()),
     _chassis(chassis)
 {
     // The following describe the socket/io communication with the server
-    socket::ptr sock = _io->socket();
+    sio::socket::ptr sock = _io->socket();
     BIND_EVENT(sock,"bot-command", std::bind(&CommunicationsModule::on_command,this,_1,_2,_3,_4));
     BIND_EVENT(sock,"webrtc-relay", std::bind(&CommunicationsModule::on_webrtc_relay,this,_1,_2,_3,_4));
     _io->set_socket_open_listener(std::bind(&CommunicationsModule::on_connected,this,_1));
@@ -94,13 +94,13 @@ CommunicationsModule::CommunicationsModule(Chassis *chassis) :
 */
 void CommunicationsModule::on_connected(std::string const& nsp)
 {
-    _io->socket()->emit("join", string_message::create("raspberry_pi"));
+    _io->socket()->emit("join", sio::string_message::create("raspberry_pi"));
 }
 
 /**
 * The following function is the manual command interface into the robot.
 */
-void CommunicationsModule::on_command(std::string const& name,message::ptr const& data,bool hasAck,message::list &ack_resp) {
+void CommunicationsModule::on_command(std::string const& name, sio::message::ptr const& data, bool hasAck, sio::message::list &ack_resp) {
     std::string command_string = data->get_string();
     if (command_string == "forward") {
         _chassis->give_command(forward_command);
@@ -117,7 +117,7 @@ void CommunicationsModule::on_command(std::string const& name,message::ptr const
     }
 }
 
-void CommunicationsModule::on_webrtc_relay(std::string const& name,message::ptr const& data,bool hasAck,message::list &ack_resp) {
+void CommunicationsModule::on_webrtc_relay(std::string const& name, sio::message::ptr const& data, bool hasAck, sio::message::list &ack_resp) {
     std::string stringified_json = data->get_string();
     websocketpp::lib::error_code ec;
     _c->send(m_hdl, stringified_json, websocketpp::frame::opcode::text,ec);;
@@ -134,7 +134,7 @@ void CommunicationsModule::on_webrtc_relay(std::string const& name,message::ptr 
 
 void CommunicationsModule::on_uv4l_message(websocketpp::connection_hdl hdl, message_ptr msg) {
     _c->get_alog().write(websocketpp::log::alevel::app, "Received Reply: "+msg->get_payload());
-    _io->socket()->emit("webrtc-relay", string_message::create(msg->get_payload()));
+    _io->socket()->emit("webrtc-relay", sio::string_message::create(msg->get_payload()));
 }
 
 void CommunicationsModule::on_uv4l_open(websocketpp::connection_hdl hdl) {
