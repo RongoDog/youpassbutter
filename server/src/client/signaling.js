@@ -65,8 +65,14 @@ function signal(socket, onStream, onError, onClose, onMessage) {
   };
 
   pc.ondatachannel = function (event) {
-    console.log("a data channel is available: do your stuff with it");
-    // For an example, see https://www.linux-projects.org/uv4l/tutorials/webrtc-data-channels/
+    var dataChannel = event.channel;
+
+    dataChannel.onopen = () => console.log("Data Channel opened");
+    dataChannel.onerror = (err) => console.error("Data Channel Error:", err);
+    dataChannel.onmessage = (event) => {
+      processIncomingData(event.data);
+    };
+    dataChannel.onclose = () => console.log("The Data Channel is Closed");
   };
 
   /* kindly signal the remote peer that we would like to initiate a call */
@@ -81,7 +87,6 @@ function signal(socket, onStream, onError, onClose, onMessage) {
       trickle_ice: true
     }
   };
-  console.log("send message " + JSON.stringify(request));
   socket.emit("webrtc-relay", JSON.stringify(request));
 
   this.onMessage = function(msg) {
@@ -92,7 +97,7 @@ function signal(socket, onStream, onError, onClose, onMessage) {
         var mediaConstraints = {
           optional: [],
           mandatory: {
-            OfferToReceiveAudio: true,
+            OfferToReceiveAudio: false,
             OfferToReceiveVideo: true
           }
         };
@@ -115,7 +120,6 @@ function signal(socket, onStream, onError, onClose, onMessage) {
             onError('failed to set the remote description: ' + event);
           }
         );
-
         break;
 
       case "answer":

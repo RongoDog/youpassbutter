@@ -6,6 +6,12 @@
 #include "globals.h"
 #include "drivers/motor_controller.h"
 
+#define GO_FORWARD 0x01
+#define GO_BACKWARD 0x02
+#define SHARP_LEFT 0x03
+#define SHARP_RIGHT 0x04
+#define STOP 0x05
+#define TURN_0FF 0x06
 char message[1]; 
 
 int initialize_socket_connection(void *args) {
@@ -43,14 +49,18 @@ int initialize_socket_connection(void *args) {
       case GO_BACKWARD:
         drive_backward();
         break;
-      case GO_LEFT:
+      case SHARP_LEFT:
         sharp_left();
         break;
-      case GO_RIGHT:
+      case SHARP_RIGHT:
         sharp_right();
         break;
       case STOP:
         motors_off();
+        break;
+      case TURN_0FF:
+        system("shutdown -P now");
+        exit(0);
         break;
       default:
         continue;
