@@ -12,6 +12,10 @@ extern "C" {
   #include <pigpio.h>
 }
 
+// We reset the device to it's initial conditions
+#define PWR_MGMT_1								0x6B
+#define RESET_PWR									0x80
+
 // sample rate divider to set freq at which accel data is read
 // DLPF is enabled, so the gyroscope frequency is 8 KHz.
 // If we want a sample rate of 100 Hz, the SMPLRT_DIV value should be 1000/100 - 1 = 4
@@ -75,8 +79,18 @@ extern "C" void* initialize_mpu6050(void *arg){
 		}
 		exit(1);
 	}
-
-	int response = i2cWriteByteData(handle, CONFIG_REG, DLPG_CONFIG);
+	int response = i2cWriteByteData(handle, PWR_MGMT_1, RESET_PWR); 
+	if (response != 0) {
+		if (response == PI_BAD_HANDLE) {
+			fprintf(stderr, "Bad handle for MPU6050 PWR register\n");
+		} else if (response == PI_BAD_PARAM) {
+			fprintf(stderr, "Bad parameters for MPU6050 PWR register\n");
+		} else if (response == PI_I2C_WRITE_FAILED) {
+			fprintf(stderr, "Write file for MPU6050 PWR register\n");
+		}
+		exit(1);
+	}
+	response = i2cWriteByteData(handle, CONFIG_REG, DLPG_CONFIG);
 	if (response != 0) {
 		if (response == PI_BAD_HANDLE) {
 			fprintf(stderr, "Bad handle for MPU6050 config register\n");
