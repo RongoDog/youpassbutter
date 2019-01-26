@@ -1,10 +1,12 @@
-#include "communications.h"
-#include "mpu6050.h"
+#include "dataflow/communications.h"
+#include "drivers/mpu6050.h"
 #include "dataflow/socket_connection.h"
 #include "drivers/motor_controller.h"
+#include "globals.h"
 #include <semaphore.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 extern "C" {
   #include <pigpio.h>
@@ -31,19 +33,21 @@ int main() {
 
   // Initialize the socket
   int socketfd = 0;
-  bool client_connected = false;
-  bool has_socket_connection = false;
+  bool client_connected = true;
+  bool has_socket_connection = true;
 
   // We create the thread info structure
-  struct thread_info *info = malloc(sizeof(struct thread_info));
+  struct thread_info *info = (struct thread_info *)malloc(sizeof(struct thread_info));
   info->semaphore = &i2c_semaphore;
-  info->message_queue_id = &message_queue_id;
-  info->socketfd = &socketfd;
-  info->client_connected = &client_connected;
-  info->has_socket_connection = &has_socket_connection;
+  info->socketfd = socketfd;
+  info->client_connected = client_connected;
+  info->has_socket_connection = has_socket_connection;
 
   pthread_create(&accelerometer_thread, NULL, initialize_mpu6050, (void *)info);
-  pthread_create(&socket_connection_thread, NULL, initialize_socket_connection, (void *)info);
+  //pthread_create(&socket_connection_thread, NULL, initialize_socket_connection, (void *)info);
   
-  CommunicationsModule *coms = new CommunicationsModule(chassis);
+  CommunicationsModule *coms = new CommunicationsModule(info);
+  while (true) {
+	  gpioDelay(100000*10000);
+  }
 }

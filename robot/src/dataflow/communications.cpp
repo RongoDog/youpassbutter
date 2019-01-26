@@ -15,14 +15,13 @@ using std::placeholders::_4;
         IO->on(EV,l);\
     } while(0)
 
-CommunicationsModule::CommunicationsModule(void *args) :
+CommunicationsModule::CommunicationsModule(struct thread_info* args) :
     _io(new sio::client()),
     _c(new websocket_client()),
-    _globals(args),
+    _globals(args)
 {
     // The following describe the socket/io communication with the server
     sio::socket::ptr sock = _io->socket();
-    BIND_EVENT(sock,"bot-command", std::bind(&CommunicationsModule::on_command,this,_1,_2,_3,_4));
     BIND_EVENT(sock,"webrtc-relay", std::bind(&CommunicationsModule::on_webrtc_relay,this,_1,_2,_3,_4));
     _io->set_socket_open_listener(std::bind(&CommunicationsModule::on_connected,this,_1));
     _io->connect("http://smokesong.xyz:3000");
