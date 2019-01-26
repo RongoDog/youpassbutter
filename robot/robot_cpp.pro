@@ -9,8 +9,8 @@ SOURCES += ./src/main.cpp \
            ./src/drivers/motor_controller.cpp
 
 HEADERS  += ./include/globals.h \
-            ./include/dataflow/communications.cpp \
-            ./include/dataflow/socket_connection.cpp \           
+            ./include/dataflow/communications.h \
+            ./include/dataflow/socket_connection.h \           
             ./include/drivers/mpu6050.h \
             ./include/drivers/motor_controller.h \
             ./include/drivers/pinout_definitions.h
