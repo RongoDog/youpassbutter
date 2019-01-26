@@ -30,6 +30,7 @@ LIBS += -L./external/sioclient/build/lib/Release/ -lboost_date_time
 
 INCLUDEPATH += /usr/local/include/boost
 LIBS += -L/usr/local/lib
+LIBS += -lpigpio
 
 INCLUDEPATH += ./external/websocketpp
 

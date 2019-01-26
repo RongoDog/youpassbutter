@@ -37,24 +37,24 @@ extern "C" {
 
 // We enable the FIFO for accelerometer and gyroscope values
 #define FIFO_EN_REG               0x23
-#define FIFO_EN_CONFIG            0x07
+#define FIFO_EN_CONFIG            0x78
 
 // We need to clear the FIFO and enable it.
 #define USER_CTRL_REG             0x6A
-#define FIFO_RESET                0x03
-#define FIFO_EN                   0x30
+#define FIFO_RESET                0x04
+#define FIFO_EN                   0x40
 
 // Contents of the FIFO buffer
 #define FIFO_R_W_REG              0x74   // R/W
 
 // Amount of data stored in the FIFO read H->L
-#define FIFO_COUNT_H_REG          0x72   //R
-#define FIFO_COUNT_L_REG          0x73   //R 
+#define FIFO_COUNT_H_REG          0x72 //   //R
+#define FIFO_COUNT_L_REG          0x73 //   //R 
 
 sem_t *i2c_semaphore;
 char acquired_bytes[300];
 
-void *initialize_mpu6050(void *arg){
+extern "C" void* initialize_mpu6050(void *arg){
 	struct thread_info *info = (struct thread_info *)arg;
 	i2c_semaphore = info->semaphore;
 
@@ -182,9 +182,9 @@ void *initialize_mpu6050(void *arg){
 	sem_post(i2c_semaphore);
 
 	// We block until WebRTC is available and the client is connected
-	while (!(args->has_socket_connection) || !(args->client_connected)) {
-		gpioDelay(1*MICRO_SEC_IN_SEC);
-	}
+	//while (!(info->has_socket_connection) || !(info->client_connected)) {
+	//	gpioDelay(1*MICRO_SEC_IN_SEC);
+	//}
 
 	// Main while loop for reading data from FIFO
 	while(1) {
@@ -193,19 +193,20 @@ void *initialize_mpu6050(void *arg){
 
 		// We read the high and low bits of the FIFO count
 		sem_wait(i2c_semaphore);
-		int high_count_word = i2cReadWordData(handle, FIFO_COUNT_H);
+		int high_count_word = i2cReadWordData(handle, FIFO_COUNT_H_REG);
 		if (high_count_word < 0) {
 			fprintf(stderr, "Failed to read MPU6050 high FIFO count word");
 			sem_post(i2c_semaphore);
 			continue;
 		}
-		int low_count_word = i2cReadWordData(handle, FIFO_COUNT_L);
+		fprintf(stdout, "High Value %d\n", high_count_word);
+		int low_count_word = i2cReadWordData(handle, FIFO_COUNT_L_REG);
 		if (low_count_word < 0) {
 			fprintf(stderr, "Failed to read MPU6050 low FIFO count word");
 			sem_post(i2c_semaphore);
 			continue;
 		}
-
+		fprintf(stdout, "Low Value %d\n", low_count_word);
 		// We convert the two 16-bit words into an integer
 		char count_bytes[4];
 		count_bytes[0] = low_count_word & 0x00ff;
@@ -226,7 +227,7 @@ void *initialize_mpu6050(void *arg){
 			if ((total_read - nb_reads) < 32) {
 				to_read = (total_read - nb_reads);
 			}
-			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, acquired_bytes[total_read], to_read)
+			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, acquired_bytes + total_read, to_read);
 			if (response < 0) {
 				fprintf(stderr, "Failed to read MPU6050 FIFO");
 				break;
@@ -236,10 +237,11 @@ void *initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			ssize_t sent = send(args->socketfd, acquired_bytes, total_read, MSG_EOR);
-			if (sent < 0) {
-				fprintf("Failed to send all necessary MPU6050 data");
-			}
+			fprintf(stderr, acquired_bytes);
+			//ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
+			//if (sent < 0) {
+			//	fprintf(stderr, "Failed to send all necessary MPU6050 data");
+			//}
 		}
 		sem_post(i2c_semaphore);
 	}

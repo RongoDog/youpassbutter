@@ -1,8 +1,9 @@
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 #include "globals.h"
 #include "drivers/motor_controller.h"
 
@@ -14,32 +15,36 @@
 #define TURN_0FF 0x06
 char message[1]; 
 
-int initialize_socket_connection(void *args) {
+extern "C" void* initialize_socket_connection(void *args) {
+  struct thread_info *info = (struct thread_info *)args;
   int fd = 0, connfd = 0, returned_len = 0;
 
   fd = socket(AF_UNIX, SOCK_SEQPACKET, 0);
   if (fd < 0) {
-    fprintf("Failed to create socket file descriptor");
+    fprintf(stderr, "Failed to create socket file descriptor\n");
     exit(1);
   }
 
   if (listen(fd, 10)) {
-    fprintf("Failed to listen on UNIX socket");
+    fprintf(stderr, "Failed to listen on UNIX socket\n");
     exit(1);
   }
+  struct sockaddr_un addr;
+  addr.sun_family = AF_UNIX;
+  strncpy(addr.sun_path, "/tmp/uv4l.socket", sizeof(addr.sun_path)-1);
 
-  connfd = accept(fd, '/tmp/uv4l.socket', 0);
+  connfd = accept(fd,(struct sockaddr *)&addr, 0);
   if (connfd < 0) {
-    fprintf("Failed to accept socket connection");
+    fprintf(stderr, "Failed to accept socket connection\n");
     exit(1);
   }
-  args->socketfd = connfd;
-  args->has_socket_connection = true;
+  info->socketfd = connfd;
+  info->has_socket_connection = true;
 
   while (1) {
     returned_len = recv(connfd, message, 1, 0);
     if (returned_len < 0) {
-      fprintf("Failed to receive message from socket connection");
+      fprintf(stderr, "Failed to receive message from socket connection\n");
       continue;
     }
     switch(message[0]) {
