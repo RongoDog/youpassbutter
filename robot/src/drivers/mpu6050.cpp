@@ -98,6 +98,17 @@ extern "C" void* initialize_mpu6050(void *arg){
 		}
 		exit(1);
 	}
+	response = i2cWriteByteData(handle, CONFIG_REG);
+	if (response < 0) {
+		if (response == PI_BAD_HANDLE) {
+			fprintf(stderr, "Bad handle for MPU6050 config register\n");
+		} else if (response == PI_BAD_PARAM) {
+			fprintf(stderr, "Bad parameters for MPU6050 config register\n");
+		} else if (response == PI_I2C_WRITE_FAILED) {
+			fprintf(stderr, "Write file for MPU6050 config register\n");
+		}
+		exit(1);
+	}
 	fprintf(stdout, "CONFIG REG VALUE %x", response);
 	
 
