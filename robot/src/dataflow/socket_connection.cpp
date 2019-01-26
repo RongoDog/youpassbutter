@@ -6,7 +6,7 @@
 #include <string.h>
 #include "globals.h"
 #include "drivers/motor_controller.h"
-
+#include <errno.h>
 #define GO_FORWARD 0x01
 #define GO_BACKWARD 0x02
 #define SHARP_LEFT 0x03
@@ -24,14 +24,16 @@ extern "C" void* initialize_socket_connection(void *args) {
     fprintf(stderr, "Failed to create socket file descriptor\n");
     exit(1);
   }
-
-  if (listen(fd, 10)) {
-    fprintf(stderr, "Failed to listen on UNIX socket\n");
-    exit(1);
-  }
+  
   struct sockaddr_un addr;
   addr.sun_family = AF_UNIX;
   strncpy(addr.sun_path, "/tmp/uv4l.socket", sizeof(addr.sun_path)-1);
+  
+  bind(fd, (struct sockaddr *) &addr, sizeof(addr));
+  if (listen(fd, 10)) {
+    fprintf(stderr, "Failed to listen on UNIX socket %d\n", errno);
+    exit(1);
+  }
 
   connfd = accept(fd,(struct sockaddr *)&addr, 0);
   if (connfd < 0) {

@@ -33,8 +33,8 @@ int main() {
 
   // Initialize the socket
   int socketfd = 0;
-  bool client_connected = true;
-  bool has_socket_connection = true;
+  bool client_connected = false;
+  bool has_socket_connection = false;
 
   // We create the thread info structure
   struct thread_info *info = (struct thread_info *)malloc(sizeof(struct thread_info));
@@ -44,7 +44,7 @@ int main() {
   info->has_socket_connection = has_socket_connection;
 
   pthread_create(&accelerometer_thread, NULL, initialize_mpu6050, (void *)info);
-  //pthread_create(&socket_connection_thread, NULL, initialize_socket_connection, (void *)info);
+  pthread_create(&socket_connection_thread, NULL, initialize_socket_connection, (void *)info);
   
   CommunicationsModule *coms = new CommunicationsModule(info);
   while (true) {

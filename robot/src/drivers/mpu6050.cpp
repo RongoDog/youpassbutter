@@ -79,7 +79,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 		}
 		exit(1);
 	}
-	int response = i2cWriteByteData(handle, PWR_MGMT_1, RESET_PWR); 
+	int response = i2cWriteByteData(handle, PWR_MGMT_1, 0x00); 
 	if (response != 0) {
 		if (response == PI_BAD_HANDLE) {
 			fprintf(stderr, "Bad handle for MPU6050 PWR register\n");
@@ -101,32 +101,9 @@ extern "C" void* initialize_mpu6050(void *arg){
 		}
 		exit(1);
 	}
-	response = i2cWriteByteData(handle, CONFIG_REG);
-	if (response < 0) {
-		if (response == PI_BAD_HANDLE) {
-			fprintf(stderr, "Bad handle for MPU6050 config register\n");
-		} else if (response == PI_BAD_PARAM) {
-			fprintf(stderr, "Bad parameters for MPU6050 config register\n");
-		} else if (response == PI_I2C_WRITE_FAILED) {
-			fprintf(stderr, "Write file for MPU6050 config register\n");
-		}
-		exit(1);
-	}
-	response = i2cWriteByteData(handle, CONFIG_REG);
-	if (response < 0) {
-		if (response == PI_BAD_HANDLE) {
-			fprintf(stderr, "Bad handle for MPU6050 config register\n");
-		} else if (response == PI_BAD_PARAM) {
-			fprintf(stderr, "Bad parameters for MPU6050 config register\n");
-		} else if (response == PI_I2C_WRITE_FAILED) {
-			fprintf(stderr, "Write file for MPU6050 config register\n");
-		}
-		exit(1);
-	}
-	fprintf(stdout, "CONFIG REG VALUE %x", response);
 	
 
-  response = i2cWriteByteData(handle, SAMPLE_RATE_REG, SMPRT_DIV);
+  	response = i2cWriteByteData(handle, SAMPLE_RATE_REG, SMPRT_DIV);
 	if (response != 0) {
 		if (response == PI_BAD_HANDLE) {
 			fprintf(stderr, "Bad handle for MPU6050 sample rate register\n");
@@ -207,39 +184,30 @@ extern "C" void* initialize_mpu6050(void *arg){
 	sem_post(i2c_semaphore);
 
 	// We block until WebRTC is available and the client is connected
-	//while (!(info->has_socket_connection) || !(info->client_connected)) {
-	//	gpioDelay(1*MICRO_SEC_IN_SEC);
-	//}
+	while (!(info->has_socket_connection) | !(info->client_connected)) {
+		gpioDelay(1*MICRO_SEC_IN_SEC);
+	}
 
 	// Main while loop for reading data from FIFO
 	while(1) {
 		// We sample in chunks 5 times a second
-	  gpioDelay(0.20*MICRO_SEC_IN_SEC);
+	  	gpioDelay(0.10*MICRO_SEC_IN_SEC);
 
 		// We read the high and low bits of the FIFO count
 		sem_wait(i2c_semaphore);
-		int high_count_word = i2cReadWordData(handle, FIFO_COUNT_H_REG);
-		if (high_count_word < 0) {
-			fprintf(stderr, "Failed to read MPU6050 high FIFO count word");
+		int high_count_byte = i2cReadByteData(handle, FIFO_COUNT_H_REG);
+		if (high_count_byte < 0) {
+			fprintf(stderr, "Failed to read MPU6050 high FIFO count word\n");
 			sem_post(i2c_semaphore);
 			continue;
 		}
-		fprintf(stdout, "High Value %d\n", high_count_word);
-		int low_count_word = i2cReadWordData(handle, FIFO_COUNT_L_REG);
-		if (low_count_word < 0) {
-			fprintf(stderr, "Failed to read MPU6050 low FIFO count word");
+		int low_count_byte = i2cReadByteData(handle, FIFO_COUNT_L_REG);
+		if (low_count_byte < 0) {
+			fprintf(stderr, "Failed to read MPU6050 low FIFO count word\n");
 			sem_post(i2c_semaphore);
 			continue;
 		}
-		fprintf(stdout, "Low Value %d\n", low_count_word);
-		// We convert the two 16-bit words into an integer
-		char count_bytes[4];
-		count_bytes[0] = low_count_word & 0x00ff;
-		count_bytes[1] = (low_count_word & 0xff00) >> 8;
-		count_bytes[2] = high_count_word & 0x00ff;
-		count_bytes[3] = (high_count_word & 0xff00) >> 8;
-		int count_value = (count_bytes[3] << 24) | (count_bytes[2] << 16) | (count_bytes[1] << 8) | (count_bytes[0]);
-
+		int count_value = (high_count_byte<<8) + low_count_byte;
 		// We intend on reading a full dataset at a time. For 12 bytes. As such we perform a modulus operation
 		// to determine any extra bytes. 
 		int nb_reads = count_value - (count_value % 12);
@@ -249,8 +217,8 @@ extern "C" void* initialize_mpu6050(void *arg){
 		int total_read = 0;
 		while (total_read < nb_reads) {
 			int to_read = 32;
-			if ((total_read - nb_reads) < 32) {
-				to_read = (total_read - nb_reads);
+			if ((nb_reads - total_read) < 32) {
+				to_read = (nb_reads-total_read);
 			}
 			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, acquired_bytes + total_read, to_read);
 			if (response < 0) {
@@ -262,11 +230,73 @@ extern "C" void* initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			fprintf(stderr, acquired_bytes);
-			//ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
-			//if (sent < 0) {
-			//	fprintf(stderr, "Failed to send all necessary MPU6050 data");
-			//}
+			int combined;
+			int negative;
+			int nativeInt;
+			combined = (acquired_bytes[0] << 8) + acquired_bytes[1];
+			negative = (combined & (1 << 15)) != 0;
+			nativeInt;
+			if (negative) {
+				nativeInt = combined | ~((1 << 16) - 1);
+			} else {
+				nativeInt = combined;
+			}
+			fprintf(stdout, "Accel X %.3f\n", (nativeInt/8192.0));
+
+			combined = (acquired_bytes[2] << 8) + acquired_bytes[3];
+			negative = (combined & (1 << 15)) != 0;
+			nativeInt;
+			if (negative) {
+				nativeInt = combined | ~((1 << 16) - 1);
+			} else {
+				nativeInt = combined;
+			}
+			fprintf(stdout, "Accel Y %.3f\n", (nativeInt/8192.0));
+		         	
+			combined = (acquired_bytes[4] << 8) + acquired_bytes[5];
+			negative = (combined & (1 << 15)) != 0;
+			nativeInt;
+			if (negative) {
+				nativeInt = combined | ~((1 << 16) - 1);
+			} else {
+				nativeInt = combined;
+			}
+			fprintf(stdout, "Accel Z %.3f\n", (nativeInt/8192.0));
+
+			combined = (acquired_bytes[6] << 8) + acquired_bytes[7];
+			negative = (combined & (1 << 15)) != 0;
+			nativeInt;
+			if (negative) {
+				nativeInt = combined | ~((1 << 16) - 1);
+			} else {
+				nativeInt = combined;
+			}
+			fprintf(stdout, "Rotate X %.3f\n", (nativeInt/131.0));
+			
+			combined = (acquired_bytes[8] << 8) + acquired_bytes[9];
+			negative = (combined & (1 << 15)) != 0;
+			nativeInt;
+			if (negative) {
+				nativeInt = combined | ~((1 << 16) - 1);
+			} else {
+				nativeInt = combined;
+			}
+			fprintf(stdout, "Rotate Y %.3f\n", (nativeInt/131.0));
+			
+			combined = (acquired_bytes[10] << 8) + acquired_bytes[11];
+			negative = (combined & (1 << 15)) != 0;
+			nativeInt;
+			if (negative) {
+				nativeInt = combined | ~((1 << 16) - 1);
+			} else {
+				nativeInt = combined;
+			}
+			fprintf(stdout, "Rotate Z %.3f\n", (nativeInt/131.0));
+			
+			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
+			if (sent < 0) {
+				fprintf(stderr, "Failed to send all necessary MPU6050 data");
+			}
 		}
 		sem_post(i2c_semaphore);
 	}
