@@ -34,8 +34,8 @@ extern "C" void* initialize_socket_connection(void *args) {
     fprintf(stderr, "Failed to listen on UNIX socket %d\n", errno);
     exit(1);
   }
-
-  connfd = accept(fd,(struct sockaddr *)&addr, 0);
+  socklen_t socket_length = sizeof(addr);
+  connfd = accept(fd,(struct sockaddr *)&addr, &socket_length);
   if (connfd < 0) {
     fprintf(stderr, "Failed to accept socket connection\n");
     exit(1);
@@ -51,6 +51,7 @@ extern "C" void* initialize_socket_connection(void *args) {
     }
     switch(message[0]) {
       case GO_FORWARD:
+        fprintf(stdout, "GOT IT\n");
         drive_forward();
         break;
       case GO_BACKWARD:
