@@ -3,19 +3,10 @@
 #include <iostream>
 
 extern "C" {
-  //#include <pigpio.h>
+  #include <pigpio.h>
 }
 
 #define PI_OUTPUT 1
-void gpioSetMode(int a, int b) {
-	return;
-}
-void gpioWrite(int a, int b) {
-	return;
-}
-void gpioInitialise() {
-	return;
-}
 
 void drive_forward() {
 	std::cout << "FORWARD\n";
@@ -82,6 +73,5 @@ void initialize_motors() {
 	gpioSetMode(OUTPUT_E_LEFT, PI_OUTPUT);
 	gpioSetMode(OUTPUT_IN_2_LEFT, PI_OUTPUT);
 	gpioSetMode(OUTPUT_IN_1_LEFT, PI_OUTPUT);
-
 	motors_off();
 }

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "communications.h"
-#include "chassis.h"
+#include "dataflow/communications.h"
+#include "globals.h"
 
 using websocketpp::connection_hdl;
 using std::placeholders::_1;
@@ -15,10 +15,10 @@ using std::placeholders::_4;
         IO->on(EV,l);\
     } while(0)
 
-CommunicationsModule::CommunicationsModule(Chassis *chassis) :
+CommunicationsModule::CommunicationsModule(void *args) :
     _io(new sio::client()),
     _c(new websocket_client()),
-    _chassis(chassis)
+    _globals(args),
 {
     // The following describe the socket/io communication with the server
     sio::socket::ptr sock = _io->socket();
@@ -95,26 +95,7 @@ CommunicationsModule::CommunicationsModule(Chassis *chassis) :
 void CommunicationsModule::on_connected(std::string const& nsp)
 {
     _io->socket()->emit("join", sio::string_message::create("raspberry_pi"));
-}
-
-/**
-* The following function is the manual command interface into the robot.
-*/
-void CommunicationsModule::on_command(std::string const& name, sio::message::ptr const& data, bool hasAck, sio::message::list &ack_resp) {
-    std::string command_string = data->get_string();
-    if (command_string == "forward") {
-        _chassis->give_command(forward_command);
-    } else if (command_string == "backward") {
-        _chassis->give_command(backward_command);
-    } else if (command_string == "left") {
-        _chassis->give_command(left_command);
-    } else if (command_string == "right") {
-        _chassis->give_command(right_command);
-    } else if (command_string == "turn-off") {
-        system("shutdown -P now");
-    } else {
-        std::cerr << "Invalid Command\n";
-    }
+    _globals->client_connected = true;
 }
 
 void CommunicationsModule::on_webrtc_relay(std::string const& name, sio::message::ptr const& data, bool hasAck, sio::message::list &ack_resp) {
