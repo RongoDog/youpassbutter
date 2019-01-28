@@ -55,12 +55,9 @@ extern "C" {
 #define FIFO_COUNT_H_REG          0x72 //   //R
 #define FIFO_COUNT_L_REG          0x73 //   //R 
 
-sem_t *i2c_semaphore;
-char acquired_bytes[300];
-
 extern "C" void* initialize_mpu6050(void *arg){
 	struct thread_info *info = (struct thread_info *)arg;
-	i2c_semaphore = info->semaphore;
+	sem_t *i2c_semaphore = info->semaphore;
 	// We block until WebRTC is available and the client is connected
 	while (!(info->has_socket_connection) | !(info->client_connected)) {
 		gpioDelay(1*MICRO_SEC_IN_SEC);
@@ -106,7 +103,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 	}
 	
 
-  	response = i2cWriteByteData(handle, SAMPLE_RATE_REG, SMPRT_DIV);
+  response = i2cWriteByteData(handle, SAMPLE_RATE_REG, SMPRT_DIV);
 	if (response != 0) {
 		if (response == PI_BAD_HANDLE) {
 			fprintf(stderr, "Bad handle for MPU6050 sample rate register\n");
@@ -208,16 +205,14 @@ extern "C" void* initialize_mpu6050(void *arg){
 		// We intend on reading a full dataset at a time. For 12 bytes. As such we perform a modulus operation
 		// to determine any extra bytes. 
 		int nb_reads = count_value - (count_value % 12);
-		if (nb_reads > 300) {
-			nb_reads = 300;
-		}
+		char buffer[nb_reads];
 		int total_read = 0;
 		while (total_read < nb_reads) {
 			int to_read = 32;
 			if ((nb_reads - total_read) < 32) {
 				to_read = (nb_reads-total_read);
 			}
-			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, acquired_bytes + total_read, to_read);
+			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, buffer + total_read, to_read);
 			if (response < 0) {
 				fprintf(stderr, "Failed to read MPU6050 FIFO");
 				break;
@@ -227,10 +222,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			for (int i = 0; i < total_read; i ++) {
-				fprintf(stdout, "%d %x\n", i, acquired_bytes[i]);
-			}
-			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
+			ssize_t sent = send(info->socketfd, buffer, total_read, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
 			}
