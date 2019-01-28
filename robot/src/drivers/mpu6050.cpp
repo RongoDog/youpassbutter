@@ -227,70 +227,9 @@ extern "C" void* initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			
-			int combined;
-			int negative;
-			int nativeInt;
-			combined = (acquired_bytes[0] << 8) + acquired_bytes[1];
-			negative = (combined & (1 << 15)) != 0;
-			nativeInt;
-			if (negative) {
-				nativeInt = combined | ~((1 << 16) - 1);
-			} else {
-				nativeInt = combined;
-			}
-			fprintf(stdout, "Accel X %.3f\n", (nativeInt/8192.0));
-
-			combined = (acquired_bytes[2] << 8) + acquired_bytes[3];
-			negative = (combined & (1 << 15)) != 0;
-			nativeInt;
-			if (negative) {
-				nativeInt = combined | ~((1 << 16) - 1);
-			} else {
-				nativeInt = combined;
-			}
-			fprintf(stdout, "Accel Y %.3f\n", (nativeInt/8192.0));
-		         	
-			combined = (acquired_bytes[4] << 8) + acquired_bytes[5];
-			negative = (combined & (1 << 15)) != 0;
-			nativeInt;
-			if (negative) {
-				nativeInt = combined | ~((1 << 16) - 1);
-			} else {
-				nativeInt = combined;
-			}
-			fprintf(stdout, "Accel Z %.3f\n", (nativeInt/8192.0));
-
-			combined = (acquired_bytes[6] << 8) + acquired_bytes[7];
-			negative = (combined & (1 << 15)) != 0;
-			nativeInt;
-			if (negative) {
-				nativeInt = combined | ~((1 << 16) - 1);
-			} else {
-				nativeInt = combined;
-			}
-			fprintf(stdout, "Rotate X %.3f\n", (nativeInt/131.0));
-			
-			combined = (acquired_bytes[8] << 8) + acquired_bytes[9];
-			negative = (combined & (1 << 15)) != 0;
-			nativeInt;
-			if (negative) {
-				nativeInt = combined | ~((1 << 16) - 1);
-			} else {
-				nativeInt = combined;
-			}
-			fprintf(stdout, "Rotate Y %.3f\n", (nativeInt/131.0));
-			
-			combined = (acquired_bytes[10] << 8) + acquired_bytes[11];
-			negative = (combined & (1 << 15)) != 0;
-			nativeInt;
-			if (negative) {
-				nativeInt = combined | ~((1 << 16) - 1);
-			} else {
-				nativeInt = combined;
-			}
-			fprintf(stdout, "Rotate Z %.3f\n", (nativeInt/131.0));
-			
+			char onebytemessage[1]; 
+  		onebytemessage[0] = 0x77;
+			ssize_t sent = send(info->socketfd, onebytemessage, 1, MSG_EOR);
 			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
