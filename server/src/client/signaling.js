@@ -66,7 +66,7 @@ function signal(socket, onStream, onError, onClose, onMessage) {
 
   pc.ondatachannel = function (event) {
     var dataChannel = event.channel;
-
+    console.log("Data channel opened", event);
     dataChannel.onopen = () => console.log("Data Channel opened");
     dataChannel.onerror = (err) => console.error("Data Channel Error:", err);
     dataChannel.onmessage = (event) => {

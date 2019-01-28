@@ -113,7 +113,6 @@ void CommunicationsModule::on_webrtc_relay(std::string const& name, sio::message
 }
 
 void CommunicationsModule::on_uv4l_message(websocketpp::connection_hdl hdl, message_ptr msg) {
-    _c->get_alog().write(websocketpp::log::alevel::app, "Received Reply: "+msg->get_payload());
     _io->socket()->emit("webrtc-relay", sio::string_message::create(msg->get_payload()));
 }
 
