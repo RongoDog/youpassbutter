@@ -291,7 +291,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 			}
 			fprintf(stdout, "Rotate Z %.3f\n", (nativeInt/131.0));
 			*/
-			fprintf("The file descriptor %d\n", info->socketfd);
+			fprintf(stdout, "The file descriptor %d\n", info->socketfd);
 			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");

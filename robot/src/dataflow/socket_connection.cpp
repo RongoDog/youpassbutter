@@ -42,7 +42,7 @@ extern "C" void* initialize_socket_connection(void *args) {
   }
   char onebytemessage[1]; 
   onebytemessage[0] = 0x77;
-  fprintf("The real file descriptor %d\n", info->socketfd);
+  fprintf(stdout, "The real file descriptor %d\n", info->socketfd);
   info->socketfd = connfd;
   info->has_socket_connection = true;
 
