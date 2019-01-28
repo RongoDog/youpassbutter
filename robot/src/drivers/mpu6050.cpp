@@ -222,7 +222,8 @@ extern "C" void* initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			ssize_t sent = send(info->socketfd, buffer, total_read, MSG_EOR);
+			fprintf(stdout, "The first value %x\n", buffer[0]);
+			ssize_t sent = send(info->socketfd, buffer[0], 1, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
 			}
