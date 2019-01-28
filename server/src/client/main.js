@@ -116,7 +116,7 @@
                           switch(dataType) {
                             case 0:
                                 accelDataX.push(conversion(raw, i)/8192.0);
-                                accelTime.push(accelData.length + 1);
+                                accelTime.push(accelDataX.length + 1);
                                 break;
                             case 1:
                                 accelDataY.push(conversion(raw, i)/8192.0);
@@ -137,7 +137,6 @@
                           }
                         }
                         if (accelData.length > 50) {
-                            var myPlotData = accelData.slice(accelData.length - 51, accelData.length - 1);
                             Plotly.deleteTraces(graphDivAccelX, 0);
                             Plotly.deleteTraces(graphDivAccelY, 0);
                             Plotly.deleteTraces(graphDivAccelZ, 0);
@@ -146,32 +145,32 @@
                             Plotly.deleteTraces(graphDivRotateZ, 0);
                             Plotly.plot(graphDivAccelX, [{
                                 x: accelTime.slice(0, 49),
-                                y: myPlotData }], 
+                                y: accelDataX.slice(accelDataX.length - 51, accelDataX.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
                             Plotly.plot(graphDivAccelY, [{
                                 x: accelTime.slice(0, 49),
-                                y: myPlotData }], 
+                                y: accelDataY.slice(accelDataY.length - 51, accelDataY.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
                             Plotly.plot(graphDivAccelZ, [{
                                 x: accelTime.slice(0, 49),
-                                y: myPlotData }], 
+                                y: accelDataY.slice(accelDataZ.length - 51, accelDataZ.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
                             Plotly.plot(graphDivRotateX, [{
                                 x: accelTime.slice(0, 49),
-                                y: myPlotData }], 
+                                y: rotateDataX.slice(rotateDataX.length - 51, rotateDataX.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
                             Plotly.plot(graphDivRotateY, [{
                                 x: accelTime.slice(0, 49),
-                                y: myPlotData }], 
+                                y: rotateDataY.slice(rotateDataY.length - 51, rotateDataY.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
                             Plotly.plot(graphDivRotateZ, [{
                                 x: accelTime.slice(0, 49),
-                                y: myPlotData }], 
+                                y: rotateDataZ.slice(rotateDataZ.length - 51, rotateDataZ.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
 
