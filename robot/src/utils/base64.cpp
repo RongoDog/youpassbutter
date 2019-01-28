@@ -6,9 +6,8 @@
  * See README for more details.
  */
 
-#include "includes.h"
-
-#include "os.h"
+#include <stdlib.h>
+#include <stdio.h>
 #include "base64.h"
 
 static const unsigned char base64_table[65] =
@@ -39,7 +38,7 @@ extern "C" unsigned char *base64_encode(const unsigned char *src, size_t len,
 	olen++; /* nul termination */
 	if (olen < len)
 		return NULL; /* integer overflow */
-	out = os_malloc(olen);
+	out = malloc(olen);
 	if (out == NULL)
 		return NULL;
 
