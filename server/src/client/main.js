@@ -8,10 +8,65 @@
         var video = document.getElementById('v');
         var start = document.getElementById('start');
         var stop = document.getElementById('stop');
-        var accelData = [];
+        var accelDataX = [];
+        var accelDataY = [];
+        var accelDataZ = [];
+        var rotateDataX = [];
+        var rotateDataY = [];
+        var rotateDataZ = [];
         var accelTime = [];
-        graphDiv = document.getElementById('plot');
-        Plotly.newPlot(graphDiv, 
+        graphDivAccelX = document.getElementById('plotAccelX');
+        graphDivAccelY = document.getElementById('plotAccelY');
+        graphDivAccelZ = document.getElementById('plotAccelZ');
+        graphDivRotateX = document.getElementById('plotRotateX');
+        graphDivRotateY = document.getElementById('plotRotateY');
+        graphDivRotateZ = document.getElementById('plotRotateZ')
+        Plotly.newPlot(graphDivAccelX, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
+        Plotly.newPlot(graphDivAccelY, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
+        Plotly.newPlot(graphDivAccelZ, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
+        Plotly.newPlot(graphDivRotateX, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
+        Plotly.newPlot(graphDivRotateY, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
+        Plotly.newPlot(graphDivRotateZ, 
             [{ 
                 x: [],
                 y: [], 
@@ -60,20 +115,61 @@
                           const dataType = i%12;
                           switch(dataType) {
                             case 0:
-                                accelData.push(conversion(raw, i)/8192.0);
+                                accelDataX.push(conversion(raw, i)/8192.0);
                                 accelTime.push(accelData.length + 1);
+                                break;
                             case 1:
+                                accelDataY.push(conversion(raw, i)/8192.0);
+                                break;
                             case 2:
+                                accelDataZ.push(conversion(raw, i)/8192.0);
+                                break;
                             case 3:
+                                rotateDataX.push(conversion(raw, i)/131.0);
+                                break;
                             case 4:
+                                rotateDataY.push(conversion(raw, i)/131.0);
+                                break;
                             case 5:
+                                rotateDataZ.push(conversion(raw, i)/131.0);
+                                break;
                             default:
                           }
                         }
                         if (accelData.length > 50) {
                             var myPlotData = accelData.slice(accelData.length - 51, accelData.length - 1);
-                            Plotly.deleteTraces(graphDiv, 0);
-                            Plotly.plot(graphDiv, [{
+                            Plotly.deleteTraces(graphDivAccelX, 0);
+                            Plotly.deleteTraces(graphDivAccelY, 0);
+                            Plotly.deleteTraces(graphDivAccelZ, 0);
+                            Plotly.deleteTraces(graphDivRotateX, 0);
+                            Plotly.deleteTraces(graphDivRotateY, 0);
+                            Plotly.deleteTraces(graphDivRotateZ, 0);
+                            Plotly.plot(graphDivAccelX, [{
+                                x: accelTime.slice(0, 49),
+                                y: myPlotData }], 
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                            );
+                            Plotly.plot(graphDivAccelY, [{
+                                x: accelTime.slice(0, 49),
+                                y: myPlotData }], 
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                            );
+                            Plotly.plot(graphDivAccelZ, [{
+                                x: accelTime.slice(0, 49),
+                                y: myPlotData }], 
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                            );
+                            Plotly.plot(graphDivRotateX, [{
+                                x: accelTime.slice(0, 49),
+                                y: myPlotData }], 
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                            );
+                            Plotly.plot(graphDivRotateY, [{
+                                x: accelTime.slice(0, 49),
+                                y: myPlotData }], 
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                            );
+                            Plotly.plot(graphDivRotateZ, [{
                                 x: accelTime.slice(0, 49),
                                 y: myPlotData }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
