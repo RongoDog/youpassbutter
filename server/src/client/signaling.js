@@ -65,15 +65,13 @@ function signal(socket, onStream, onError, onClose, onMessage) {
   };
 
   pc.ondatachannel = function (event) {
-    var dataChannel = event.channel;
-    console.log("Data channel opened", event);
-    dataChannel.onopen = () => console.log("Data Channel opened");
-    dataChannel.onerror = (err) => console.error("Data Channel Error:", err);
-    dataChannel.onmessage = (event) => {
-      console.log(event);
+    event.channel.onopen = () => console.log("Data Channel opened");
+    event.channel.onerror = (err) => console.error("Data Channel Error:", err);
+    event.channel.onmessage = (event) => {
+      console.log("Received Message", event);
       processIncomingData(event.data);
     };
-    dataChannel.onclose = () => console.log("The Data Channel is Closed");
+    event.channel.onclose = () => console.log("The Data Channel is Closed");
   };
 
   /* kindly signal the remote peer that we would like to initiate a call */

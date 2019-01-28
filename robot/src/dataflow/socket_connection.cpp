@@ -47,14 +47,14 @@ extern "C" void* initialize_socket_connection(void *args) {
   info->has_socket_connection = true;
 
   while (1) {
-    returned_len = recv(connfd, message, 1, 0);
+    returned_len = recv(connfd, message, 1, MGS_WAITALL);
     if (returned_len < 0) {
       fprintf(stderr, "Failed to receive message from socket connection\n");
       continue;
     }
+    fprintf(stdout, "Received message %x", message[0]);
     switch(message[0]) {
       case GO_FORWARD:
-        fprintf(stdout, "GOT IT\n");
         drive_forward();
         break;
       case GO_BACKWARD:
