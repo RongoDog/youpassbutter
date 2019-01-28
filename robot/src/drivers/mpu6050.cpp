@@ -61,7 +61,10 @@ char acquired_bytes[300];
 extern "C" void* initialize_mpu6050(void *arg){
 	struct thread_info *info = (struct thread_info *)arg;
 	i2c_semaphore = info->semaphore;
-
+	// We block until WebRTC is available and the client is connected
+	while (!(info->has_socket_connection) | !(info->client_connected)) {
+		gpioDelay(1*MICRO_SEC_IN_SEC);
+	}
 	sem_wait(i2c_semaphore);
 	int handle;
 	handle = i2cOpen(1, MPU6050_ADDRESS, 0);
@@ -182,12 +185,6 @@ extern "C" void* initialize_mpu6050(void *arg){
 		exit(1);
 	}
 	sem_post(i2c_semaphore);
-
-	// We block until WebRTC is available and the client is connected
-	while (!(info->has_socket_connection) | !(info->client_connected)) {
-		gpioDelay(1*MICRO_SEC_IN_SEC);
-	}
-
 	// Main while loop for reading data from FIFO
 	while(1) {
 		// We sample in chunks 5 times a second
@@ -294,6 +291,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 			}
 			fprintf(stdout, "Rotate Z %.3f\n", (nativeInt/131.0));
 			*/
+			fprintf("The file descriptor %d\n", info->socketfd);
 			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
