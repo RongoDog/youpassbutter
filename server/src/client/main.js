@@ -33,7 +33,6 @@
                         alert(message);
                     },
                     function (data) {
-                        console.log(data);
                         var raw =  window.atob(data);
                         function conversion(data, i) {
                             var combined = (data.charCodeAt(i) << 8) + data.charCodeAt(i+1);	
@@ -59,11 +58,14 @@
                             case 5:
                             default:
                           }
-                          PLOT = document.getElementById('plot');
-                          Plotly.plot( PLOT, [{
-                          x: accelTime,
-                          y: accelData }], {
-                          margin: { t: 0 } } );
+                        }
+                        if (accelData.length > 50) {
+                            var myPlotData = accelData.slice(accelData.length - 51, accelData.length - 1);
+                            PLOT = document.getElementById('plot');
+                            Plotly.plot( PLOT, [{
+                            x: myPlotData,
+                            y: accelTime.slice(0, 49) }], {
+                            margin: { t: 0 } } );
                         }
                     }
                 );
@@ -96,11 +98,7 @@
                 if (video.paused || video.ended) {
                     return;
                 }
-                var w = canvas.getAttribute('width');
-                var h = canvas.getAttribute('height');
-                ctx.fillRect(0, 0, w, h);
-                ctx.drawImage(video, 0, 0, w, h);
-            }, 33);
+            }, 1000000);
         }, false);
         renderVisualization();
     });
