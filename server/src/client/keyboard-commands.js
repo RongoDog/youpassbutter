@@ -1,6 +1,6 @@
 function setupKeyCommands(dataChannel) {
-  var bufferArray = ArrayBuffer(1);
-  var byteArray = Uint8Array(bufferArray);
+  var bufferArray = new ArrayBuffer(1);
+  var byteArray = new Uint8Array(bufferArray);
 
   window.addEventListener("load", (e) => {
     document.addEventListener("keypress", (event) => {
