@@ -37,7 +37,6 @@
                     function (data) {
                         console.log(data);
                         var raw =  window.atob(data);
-                        var HEX = '';
                         function conversion(data, i) {
                             var combined = (data.charCodeAt(i) << 8) + data.charCodeAt(i+1);	
                             var negative = (combined & (1 << 15)) != 0;	
@@ -53,7 +52,8 @@
                           const dataType = i%12;
                           switch(dataType) {
                             case 0:
-                                console.log(conversion(raw, i)/8192.0);
+                                accelData.push(conversion(raw, i)/8192.0);
+                                accelTime.push(accelData.length + 1);
                             case 1:
                             case 2:
                             case 3:
@@ -61,12 +61,12 @@
                             case 5:
                             default:
                           }
-                          var _hex = raw.charCodeAt(i).toString(16)
-                      
-                          HEX += (_hex.length==2?_hex:'0'+_hex);
-                      
+                          PLOT = document.getElementById('plot');
+                          Plotly.plot( PLOT, [{
+                          x: accelTime,
+                          y: accelData }], {
+                          margin: { t: 0 } } );
                         }
-                        console.log(HEX.toUpperCase());
                     }
                 );
             }
