@@ -22,6 +22,10 @@ app.get("/visualization.js", function(req, res) {
     res.sendFile(path.join(__dirname + "/client/visualization.js"));
 });
 
+app.get("/data-processing.js", function(req, res) {
+    res.sendFile(path.join(__dirname + "/client/data-processing.js"));
+});
+
 var server = app.listen(port, "0.0.0.0", function(){
     console.log("listening to request on port 3000");
 });
