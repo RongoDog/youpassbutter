@@ -136,7 +136,7 @@
                             default:
                           }
                         }
-                        if (accelData.length > 50) {
+                        if (accelDataX.length > 50) {
                             Plotly.deleteTraces(graphDivAccelX, 0);
                             Plotly.deleteTraces(graphDivAccelY, 0);
                             Plotly.deleteTraces(graphDivAccelZ, 0);
@@ -193,8 +193,6 @@
         // Wait until the video stream can play
         video.addEventListener('canplay', function (e) {
             if (!isStreaming) {
-                canvas.setAttribute('width', video.videoWidth);
-                canvas.setAttribute('height', video.videoHeight);
                 isStreaming = true;
             }
         }, false);
