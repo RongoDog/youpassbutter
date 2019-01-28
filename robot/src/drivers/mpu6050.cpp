@@ -45,7 +45,7 @@ extern "C" {
 
 // We need to clear the FIFO and enable it.
 #define USER_CTRL_REG             0x6A
-#define FIFO_RESET                0x04
+#define FIFO_RESET                0x05
 #define FIFO_EN                   0x40
 
 // Contents of the FIFO buffer
