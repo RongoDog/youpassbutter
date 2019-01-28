@@ -1,5 +1,6 @@
 #include "drivers/pinout_definitions.h"
 #include "globals.h"
+#include "base64.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -225,7 +226,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 		if (total_read > 0) {
 			size_t encoded_length; 
 			unsigned char *encoded = base64_encode(buffer, total_read, encoded_length);
-			fprintf(stdout, "The output buffer %s\n", enocded);
+			fprintf(stdout, "The output buffer %s\n", encoded);
 			ssize_t sent = send(info->socketfd, encoded, encoded_length, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
