@@ -38,9 +38,9 @@
                         var raw =  window.atob(data);
                         var HEX = '';
                         function conversion(byteH, byteL) {
-                            combined = (byteH << 8) + byteL;	
-                            negative = (combined & (1 << 15)) != 0;	
-                            nativeInt;	
+                            var combined = (byteH << 8) + byteL;	
+                            var negative = (combined & (1 << 15)) != 0;	
+                            var nativeInt;	
                             if (negative) {	
                                 nativeInt = combined | ~((1 << 16) - 1);	
                             } else {	
