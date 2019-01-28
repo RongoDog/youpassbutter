@@ -26,6 +26,10 @@ app.get("/data-processing.js", function(req, res) {
     res.sendFile(path.join(__dirname + "/client/data-processing.js"));
 });
 
+app.get("/keyboard-commands.js", function(req, res) {
+    res.sendFile(path.join(__dirname + "/client/keyboard-commands.js"));
+});
+
 var server = app.listen(port, "0.0.0.0", function(){
     console.log("listening to request on port 3000");
 });
