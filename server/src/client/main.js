@@ -161,17 +161,17 @@
                             Plotly.plot(graphDivRotateX, [{
                                 x: accelTime.slice(0, 49),
                                 y: rotateDataX.slice(rotateDataX.length - 51, rotateDataX.length - 1) }], 
-                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                                { margin: { t: 0 }, yaxis: { range: [-250, 250], } }
                             );
                             Plotly.plot(graphDivRotateY, [{
                                 x: accelTime.slice(0, 49),
                                 y: rotateDataY.slice(rotateDataY.length - 51, rotateDataY.length - 1) }], 
-                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                                { margin: { t: 0 }, yaxis: { range: [-250, 250], } }
                             );
                             Plotly.plot(graphDivRotateZ, [{
                                 x: accelTime.slice(0, 49),
                                 y: rotateDataZ.slice(rotateDataZ.length - 51, rotateDataZ.length - 1) }], 
-                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                                { margin: { t: 0 }, yaxis: { range: [-250, 250], } }
                             );
 
                         } 
