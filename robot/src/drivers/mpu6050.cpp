@@ -230,8 +230,8 @@ extern "C" void* initialize_mpu6050(void *arg){
 			char onebytemessage[1]; 
   		onebytemessage[0] = 0x77;
 			ssize_t sent = send(info->socketfd, onebytemessage, 1, MSG_EOR);
-			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
-			if (sent < 0) {
+			ssize_t sent2 = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
+			if (sent2 < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
 			}
 			fprintf(stdout, "Sent %d data points", sent);
