@@ -47,7 +47,7 @@ extern "C" void* initialize_socket_connection(void *args) {
   info->has_socket_connection = true;
 
   while (1) {
-    returned_len = recv(connfd, message, 1, MGS_WAITALL);
+    returned_len = recv(connfd, message, 1, MSG_WAITALL);
     if (returned_len < 0) {
       fprintf(stderr, "Failed to receive message from socket connection\n");
       continue;
