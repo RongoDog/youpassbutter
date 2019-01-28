@@ -38,8 +38,8 @@
                         console.log(data);
                         var raw =  window.atob(data);
                         var HEX = '';
-                        function conversion(byteH, byteL) {
-                            var combined = (byteH << 8) + byteL;	
+                        function conversion(data, i) {
+                            var combined = (data.charCodeAt(i) << 8) + data.charCodeAt(i+1);	
                             var negative = (combined & (1 << 15)) != 0;	
                             var nativeInt;	
                             if (negative) {	
@@ -53,7 +53,7 @@
                           const dataType = i%12;
                           switch(dataType) {
                             case 0:
-                                console.log(conversion(raw[i], raw[i+1])/8192.0);
+                                console.log(conversion(raw, i)/8192.0);
                             case 1:
                             case 2:
                             case 3:
