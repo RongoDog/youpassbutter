@@ -1,6 +1,6 @@
 #include "drivers/pinout_definitions.h"
 #include "globals.h"
-#include "base64.h"
+#include "utils/base64.h"
 
 #include <stdio.h>
 #include <stdlib.h>
