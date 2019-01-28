@@ -10,6 +10,17 @@
         var stop = document.getElementById('stop');
         var accelData = [];
         var accelTime = [];
+        graphDiv = document.getElementById('plot');
+        Plotly.newPlot(graphDiv, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
+
         start.addEventListener('click', function (e) {
             if (!isStreaming) {
                 signalObj = new signal(socket,
@@ -61,12 +72,11 @@
                         }
                         if (accelData.length > 50) {
                             var myPlotData = accelData.slice(accelData.length - 51, accelData.length - 1);
-                            PLOT = document.getElementById('plot');
-                            Plotly.plot( PLOT, [{
+                            Plotly.update(graphDiv, [{
                             x: myPlotData,
                             y: accelTime.slice(0, 49) }], {
-                            margin: { t: 0 } } );
-                        }
+                            margin: { t: 0 } }, 0);
+                        } 
                     }
                 );
             }
