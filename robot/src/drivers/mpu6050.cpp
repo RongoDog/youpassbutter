@@ -225,7 +225,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
 			size_t encoded_length; 
-			unsigned char *encoded = base64_encode(buffer, total_read, &encoded_length);
+			unsigned char *encoded = base64_encode((const unsigned char*)buffer, total_read, &encoded_length);
 			fprintf(stdout, "The output buffer %s\n", encoded);
 			ssize_t sent = send(info->socketfd, encoded, encoded_length, MSG_EOR);
 			if (sent < 0) {
