@@ -40,7 +40,9 @@ extern "C" void* initialize_socket_connection(void *args) {
     fprintf(stderr, "Failed to accept socket connection\n");
     exit(1);
   }
-  ssize_t sent = send(info->socketfd, 0x77, 1, MSG_EOR);
+  char onebytemessage[1]; 
+  onebytemessage[0] = 0x77;
+  ssize_t sent = send(info->socketfd, onebytemessage, 1, MSG_EOR);
   info->socketfd = connfd;
   info->has_socket_connection = true;
 
