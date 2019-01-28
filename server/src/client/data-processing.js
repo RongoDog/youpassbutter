@@ -1,5 +1,5 @@
 function processIncomingData(data) {
-  var raw =  window.atob;
+  var raw =  window.atob(data);
   var HEX = '';
 
   for ( i = 0; i < raw.length; i++ ) {
