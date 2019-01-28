@@ -1,3 +1,3 @@
 function processIncomingData(data) {
-  console.log("Received", window.atob(data + "/0"));
+  console.log("Received", window.atob(data + "/0").toString('hex'));
 }
