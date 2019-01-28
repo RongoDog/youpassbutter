@@ -70,6 +70,7 @@ function signal(socket, onStream, onError, onClose, onMessage) {
     dataChannel.onopen = () => console.log("Data Channel opened");
     dataChannel.onerror = (err) => console.error("Data Channel Error:", err);
     dataChannel.onmessage = (event) => {
+      console.log(event);
       processIncomingData(event.data);
     };
     dataChannel.onclose = () => console.log("The Data Channel is Closed");
