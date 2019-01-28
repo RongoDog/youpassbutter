@@ -76,7 +76,7 @@
                             Plotly.plot(graphDiv, [{
                                 x: accelTime.slice(0, 49),
                                 y: myPlotData }], 
-                                { margin: { t: 0 } }
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
 
                         } 
