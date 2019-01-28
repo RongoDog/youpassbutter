@@ -42,7 +42,7 @@ extern "C" void* initialize_socket_connection(void *args) {
   }
   char onebytemessage[1]; 
   onebytemessage[0] = 0x77;
-  ssize_t sent = send(info->socketfd, onebytemessage, 1, MSG_EOR);
+  ssize_t sent = send(fd, onebytemessage, 1, MSG_EOR);
   info->socketfd = connfd;
   info->has_socket_connection = true;
 
