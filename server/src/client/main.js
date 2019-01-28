@@ -35,6 +35,7 @@
                         alert(message);
                     },
                     function (data) {
+                        console.log(data);
                         var raw =  window.atob(data);
                         var HEX = '';
                         function conversion(byteH, byteL) {
