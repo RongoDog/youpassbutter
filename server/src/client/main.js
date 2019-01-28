@@ -38,7 +38,7 @@
                         var raw =  window.atob(data);
                         var HEX = '';
                         function conversion(byteH, byteL) {
-                            combined = (acquired_bytes[0] << 8) + acquired_bytes[1];	
+                            combined = (byteH << 8) + byteL;	
                             negative = (combined & (1 << 15)) != 0;	
                             nativeInt;	
                             if (negative) {	
@@ -46,6 +46,7 @@
                             } else {	
                                 nativeInt = combined;	
                             }
+                            return nativeInt;
                         }
                         for (i = 0; i < raw.length; i+=2) {
                           const dataType = i%12;
