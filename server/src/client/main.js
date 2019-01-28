@@ -72,10 +72,12 @@
                         }
                         if (accelData.length > 50) {
                             var myPlotData = accelData.slice(accelData.length - 51, accelData.length - 1);
-                            Plotly.update(graphDiv, [{
+                            Plotly.deleteTraces(graphDiv, 0);
+                            Plotly.plot(graphDiv, [{
                             x: myPlotData,
                             y: accelTime.slice(0, 49) }], {
                             margin: { t: 0 } });
+
                         } 
                     }
                 );
