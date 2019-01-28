@@ -188,7 +188,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 	// Main while loop for reading data from FIFO
 	while(1) {
 		// We sample in chunks 5 times a second
-	  	gpioDelay(0.10*MICRO_SEC_IN_SEC);
+	  gpioDelay(0.10*MICRO_SEC_IN_SEC);
 
 		// We read the high and low bits of the FIFO count
 		sem_wait(i2c_semaphore);
@@ -227,14 +227,13 @@ extern "C" void* initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			char onebytemessage[1]; 
-  		onebytemessage[0] = 0x77;
-			ssize_t sent = send(info->socketfd, onebytemessage, 1, MSG_EOR);
-			ssize_t sent2 = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
-			if (sent2 < 0) {
+			for (int i = 0; i < total_read; i ++) {
+				fprintf(stdout, "%d %x\n", i, acquired_bytes[i]);
+			}
+			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
+			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
 			}
-			fprintf(stdout, "Sent %d data points", sent);
 		}
 		sem_post(i2c_semaphore);
 	}
