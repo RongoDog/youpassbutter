@@ -16,7 +16,8 @@ HEADERS  += ./include/globals.h \
             ./include/drivers/motor_controller.h \
             ./include/drivers/pinout_definitions.h \
             ./include/includes.h \
-            ./include/utils/base64.h
+            ./include/utils/base64.h \
+            ./include/build_config.h 
 
 INCLUDEPATH += ./include
 
