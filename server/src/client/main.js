@@ -75,7 +75,7 @@
                             Plotly.update(graphDiv, [{
                             x: myPlotData,
                             y: accelTime.slice(0, 49) }], {
-                            margin: { t: 0 } }, 0);
+                            margin: { t: 0 } });
                         } 
                     }
                 );
