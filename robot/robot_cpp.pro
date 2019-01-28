@@ -6,14 +6,17 @@ SOURCES += ./src/main.cpp \
            ./src/dataflow/communications.cpp \
            ./src/dataflow/socket_connection.cpp \
            ./src/drivers/mpu6050.cpp \
-           ./src/drivers/motor_controller.cpp
+           ./src/drivers/motor_controller.cpp \
+           ./src/utils/base64.cpp
 
 HEADERS  += ./include/globals.h \
             ./include/dataflow/communications.h \
             ./include/dataflow/socket_connection.h \           
             ./include/drivers/mpu6050.h \
             ./include/drivers/motor_controller.h \
-            ./include/drivers/pinout_definitions.h
+            ./include/drivers/pinout_definitions.h \
+            ./include/includes.h \
+            ./include/utils/base64.h
 
 INCLUDEPATH += ./include
 
