@@ -10,7 +10,8 @@
         var ctx = canvas.getContext('2d');
         var start = document.getElementById('start');
         var stop = document.getElementById('stop');
-
+        var accelData = [];
+        var accelTime = [];
         start.addEventListener('click', function (e) {
             if (!isStreaming) {
                 signalObj = new signal(socket,
@@ -32,6 +33,38 @@
                     },
                     function (message) {
                         alert(message);
+                    },
+                    function (data) {
+                        var raw =  window.atob(data);
+                        var HEX = '';
+                        function conversion(byteH, byteL) {
+                            combined = (acquired_bytes[0] << 8) + acquired_bytes[1];	
+                            negative = (combined & (1 << 15)) != 0;	
+                            nativeInt;	
+                            if (negative) {	
+                                nativeInt = combined | ~((1 << 16) - 1);	
+                            } else {	
+                                nativeInt = combined;	
+                            }
+                        }
+                        for (i = 0; i < raw.length; i+=2) {
+                          const dataType = i%12;
+                          switch(dataType) {
+                            case 0:
+                                console.log(conversion(raw[i], raw[i+1])/8192.0);
+                            case 1:
+                            case 2:
+                            case 3:
+                            case 4:
+                            case 5:
+                            default:
+                          }
+                          var _hex = raw.charCodeAt(i).toString(16)
+                      
+                          HEX += (_hex.length==2?_hex:'0'+_hex);
+                      
+                        }
+                        console.log(HEX.toUpperCase());
                     }
                 );
             }

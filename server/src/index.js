@@ -22,10 +22,6 @@ app.get("/visualization.js", function(req, res) {
     res.sendFile(path.join(__dirname + "/client/visualization.js"));
 });
 
-app.get("/data-processing.js", function(req, res) {
-    res.sendFile(path.join(__dirname + "/client/data-processing.js"));
-});
-
 app.get("/keyboard-commands.js", function(req, res) {
     res.sendFile(path.join(__dirname + "/client/keyboard-commands.js"));
 });
