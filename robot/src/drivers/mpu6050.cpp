@@ -205,7 +205,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 		// We intend on reading a full dataset at a time. For 12 bytes. As such we perform a modulus operation
 		// to determine any extra bytes. 
 		int nb_reads = count_value - (count_value % 12);
-		const void* buffer = malloc(nb_reads*sizeof(char));
+		void* buffer = malloc(nb_reads*sizeof(char));
 		int total_read = 0;
 		while (total_read < nb_reads) {
 			int to_read = 32;
