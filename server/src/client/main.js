@@ -6,8 +6,6 @@
     window.addEventListener('DOMContentLoaded', function () {
         var isStreaming = false;
         var video = document.getElementById('v');
-        var canvas = document.getElementById('c');
-        var ctx = canvas.getContext('2d');
         var start = document.getElementById('start');
         var stop = document.getElementById('stop');
         var accelData = [];
