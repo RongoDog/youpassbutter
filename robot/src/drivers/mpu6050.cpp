@@ -205,14 +205,14 @@ extern "C" void* initialize_mpu6050(void *arg){
 		// We intend on reading a full dataset at a time. For 12 bytes. As such we perform a modulus operation
 		// to determine any extra bytes. 
 		int nb_reads = count_value - (count_value % 12);
-		char buffer[nb_reads];
+		const void* buffer = malloc(nb_reads*sizeof(char));
 		int total_read = 0;
 		while (total_read < nb_reads) {
 			int to_read = 32;
 			if ((nb_reads - total_read) < 32) {
 				to_read = (nb_reads-total_read);
 			}
-			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, buffer + total_read, to_read);
+			response = i2cReadI2CBlockData(handle, FIFO_R_W_REG, (char *)buffer + total_read, to_read);
 			if (response < 0) {
 				fprintf(stderr, "Failed to read MPU6050 FIFO");
 				break;
@@ -226,6 +226,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
 			}
+			free(buffer);
 		}
 		sem_post(i2c_semaphore);
 	}
