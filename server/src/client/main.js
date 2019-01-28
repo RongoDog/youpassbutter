@@ -114,23 +114,23 @@
                         for (i = 0; i < raw.length; i+=2) {
                           const dataType = i%12;
                           switch(dataType) {
-                            case 0:
+                            case (0):
                                 accelDataX.push(conversion(raw, i)/8192.0);
                                 accelTime.push(accelDataX.length + 1);
                                 break;
-                            case 1:
+                            case (2):
                                 accelDataY.push(conversion(raw, i)/8192.0);
                                 break;
-                            case 2:
+                            case (4):
                                 accelDataZ.push(conversion(raw, i)/8192.0);
                                 break;
-                            case 3:
+                            case (6):
                                 rotateDataX.push(conversion(raw, i)/131.0);
                                 break;
-                            case 4:
+                            case (8):
                                 rotateDataY.push(conversion(raw, i)/131.0);
                                 break;
-                            case 5:
+                            case (10):
                                 rotateDataZ.push(conversion(raw, i)/131.0);
                                 break;
                             default:
