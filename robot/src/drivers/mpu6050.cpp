@@ -227,7 +227,7 @@ extern "C" void* initialize_mpu6050(void *arg){
 
 		// If we've read some data, we send it over the websocket we assume is open
 		if (total_read > 0) {
-			/*
+			
 			int combined;
 			int negative;
 			int nativeInt;
@@ -290,11 +290,12 @@ extern "C" void* initialize_mpu6050(void *arg){
 				nativeInt = combined;
 			}
 			fprintf(stdout, "Rotate Z %.3f\n", (nativeInt/131.0));
-			*/
+			
 			ssize_t sent = send(info->socketfd, acquired_bytes, total_read, MSG_EOR);
 			if (sent < 0) {
 				fprintf(stderr, "Failed to send all necessary MPU6050 data");
 			}
+			fprintf(stdout, "Sent %d data points", sent);
 		}
 		sem_post(i2c_semaphore);
 	}

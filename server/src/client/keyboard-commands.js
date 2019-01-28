@@ -4,7 +4,6 @@ function setupKeyCommands(dataChannel) {
 
   document.addEventListener("keypress", (event) => {
     event.preventDefault();
-    console.log("Received command", event.code);
     switch (event.code) {
       case "KeyW":
         byteArray[0] = 1;
