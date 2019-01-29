@@ -42,9 +42,6 @@ extern "C" void* initialize_socket_connection(void *args) {
   }
   info->socketfd = connfd;
   info->has_socket_connection = true;
-  char onebytemessage[1]; 
-  onebytemessage[0] = 0x77;
-  ssize_t sent = send(info->socketfd, onebytemessage, 1, MSG_EOR);
   while (1) {
     returned_len = recv(connfd, message, 1, MSG_WAITALL);
     if (returned_len < 0) {
