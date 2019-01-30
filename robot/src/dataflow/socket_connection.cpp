@@ -51,28 +51,35 @@ extern "C" void* initialize_socket_connection(void *args) {
       continue;
     }
     fprintf(stdout, "Received message %x", message[0]);
-    switch(message[1]) {
-      case GO_FORWARD:
-        drive_forward((unsigned int)message[2], (unsigned int)message[3]);
+    switch(message[0]) {
+      case SERVO:
         break;
-      case GO_BACKWARD:
-        drive_backward((unsigned int)message[2], (unsigned int)message[3]);
-        break;
-      case SHARP_LEFT:
-        sharp_left((unsigned int)message[2], (unsigned int)message[3]);
-        break;
-      case SHARP_RIGHT:
-        sharp_right((unsigned int)message[2], (unsigned int)message[3]);
-        break;
-      case STOP:
-        motors_off();
-        break;
-      case TURN_0FF:
-        system("shutdown -P now");
-        exit(0);
-        break;
+      case DRIVETRAIN:
+        switch(message[1]) {
+          case GO_FORWARD:
+            drive_forward((unsigned int)message[2], (unsigned int)message[3]);
+            break;
+          case GO_BACKWARD:
+            drive_backward((unsigned int)message[2], (unsigned int)message[3]);
+            break;
+          case SHARP_LEFT:
+            sharp_left((unsigned int)message[2], (unsigned int)message[3]);
+            break;
+          case SHARP_RIGHT:
+            sharp_right((unsigned int)message[2], (unsigned int)message[3]);
+            break;
+          case STOP:
+            motors_off();
+            break;
+          case TURN_0FF:
+            system("shutdown -P now");
+            exit(0);
+            break;
+          default:
+            continue;
+        }
       default:
-        continue;
+        break;
     }
   }
 
