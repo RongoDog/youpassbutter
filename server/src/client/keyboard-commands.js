@@ -3,7 +3,7 @@ function setupKeyCommands(dataChannel) {
   var byteArray = new Uint8Array(bufferArray);
   button = document.getElementById("SEND");
   leftCtrl = document.getElementById("LEFT");
-  rightCtrl = document.getElementById("LEFT");
+  rightCtrl = document.getElementById("RIGHT");
   button.addEventListener("click", (event) => {
     event.preventDefault();
     byteArray[0] = 2;
