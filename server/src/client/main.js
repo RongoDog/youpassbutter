@@ -150,8 +150,8 @@
                             //    { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             //);
                             Plotly.plot(graphDivAccelY, [{
-                                x: accelTime,
-                                y: accelDataY.slice }], 
+                                x: accelTime.slice(0, 99),
+                                y: accelDataY.slice(accelDataY.length - 99, accelDataY.length - 1) }], 
                                 { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             );
                             //Plotly.plot(graphDivAccelZ, [{
