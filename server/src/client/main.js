@@ -16,7 +16,7 @@
         var rotateDataZ = [];
         var accelTime = [];
         graphDivAccelX = document.getElementById('plotAccelX');
-        //graphDivAccelY = document.getElementById('plotAccelY');
+        graphDivAccelY = document.getElementById('plotAccelY');
         //graphDivAccelZ = document.getElementById('plotAccelZ');
         //graphDivRotateX = document.getElementById('plotRotateX');
         //graphDivRotateY = document.getElementById('plotRotateY');
