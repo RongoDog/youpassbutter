@@ -2,10 +2,16 @@ function setupKeyCommands(dataChannel) {
   var bufferArray = new ArrayBuffer(4);
   var byteArray = new Uint8Array(bufferArray);
   button = document.getElementById("SEND");
+  leftCtrl = document.getElementById("LEFT");
+  rightCtrl = document.getElementById("LEFT");
   button.addEventListener("click", (event) => {
     event.preventDefault();
-
-  })
+    byteArray[0] = 2;
+    byteArray[1] = 1;
+    byteArray[2] = leftCtrl.value;
+    byteArray[3] = rightCtrl.value;
+    dataChannel.send(byteArray);
+  });
   document.addEventListener("keypress", (event) => {
     event.preventDefault();
     switch (event.code) {
