@@ -1,5 +1,5 @@
 function setupKeyCommands(dataChannel) {
-  var bufferArray = new ArrayBuffer(1);
+  var bufferArray = new ArrayBuffer(4);
   var byteArray = new Uint8Array(bufferArray);
   button = document.getElementById("SEND");
   button.addEventListener("click", (event) => {

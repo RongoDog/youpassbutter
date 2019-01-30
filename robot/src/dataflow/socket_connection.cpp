@@ -56,6 +56,7 @@ extern "C" void* initialize_socket_connection(void *args) {
         break;
       case DRIVETRAIN:
         switch(message[1]) {
+          fprintf(stdout, "Received direction %x %x $x", message[1], message[2], message[3]);
           case GO_FORWARD:
             drive_forward((unsigned int)message[2], (unsigned int)message[3]);
             break;
