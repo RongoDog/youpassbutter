@@ -8,8 +8,8 @@ function setupKeyCommands(dataChannel) {
     event.preventDefault();
     byteArray[0] = 2;
     byteArray[1] = 1;
-    byteArray[2] = leftCtrl.value;
-    byteArray[3] = rightCtrl.value;
+    byteArray[2] = Number(leftCtrl.value);
+    byteArray[3] = Number(rightCtrl.value);
     dataChannel.send(byteArray);
   });
   document.addEventListener("keypress", (event) => {
