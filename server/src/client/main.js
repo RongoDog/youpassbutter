@@ -15,22 +15,13 @@
         var rotateDataY = [];
         var rotateDataZ = [];
         var accelTime = [];
-        graphDivAccelX = document.getElementById('plotAccelX');
-        //graphDivAccelY = document.getElementById('plotAccelY');
+        //graphDivAccelX = document.getElementById('plotAccelX');
+        graphDivAccelY = document.getElementById('plotAccelY');
         //graphDivAccelZ = document.getElementById('plotAccelZ');
         //graphDivRotateX = document.getElementById('plotRotateX');
         //graphDivRotateY = document.getElementById('plotRotateY');
         //graphDivRotateZ = document.getElementById('plotRotateZ')
-        Plotly.newPlot(graphDivAccelX, 
-            [{ 
-                x: [],
-                y: [], 
-            }],
-            {
-                margin: { t: 0 } 
-            }
-        );
-        //Plotly.newPlot(graphDivAccelY, 
+        //Plotly.newPlot(graphDivAccelX, 
         //    [{ 
         //        x: [],
         //        y: [], 
@@ -39,6 +30,15 @@
         //        margin: { t: 0 } 
         //    }
         //);
+        Plotly.newPlot(graphDivAccelY, 
+            [{ 
+                x: [],
+                y: [], 
+            }],
+            {
+                margin: { t: 0 } 
+            }
+        );
         //Plotly.newPlot(graphDivAccelZ, 
         //    [{ 
         //        x: [],
@@ -137,22 +137,22 @@
                           }
                         }
                         if (accelDataX.length > 50) {
-                            Plotly.deleteTraces(graphDivAccelX, 0);
-                            //Plotly.deleteTraces(graphDivAccelY, 0);
+                            //Plotly.deleteTraces(graphDivAccelX, 0);
+                            Plotly.deleteTraces(graphDivAccelY, 0);
                             //Plotly.deleteTraces(graphDivAccelZ, 0);
                             //Plotly.deleteTraces(graphDivRotateX, 0);
                             //Plotly.deleteTraces(graphDivRotateY, 0);
                             //Plotly.deleteTraces(graphDivRotateZ, 0);
-                            Plotly.plot(graphDivAccelX, [{
-                                x: accelTime.slice(0, 49),
-                                y: accelDataX.slice(accelDataX.length - 51, accelDataX.length - 1) }], 
-                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
-                            );
-                            //Plotly.plot(graphDivAccelY, [{
+                            //Plotly.plot(graphDivAccelX, [{
                             //    x: accelTime.slice(0, 49),
-                            //    y: accelDataY.slice(accelDataY.length - 51, accelDataY.length - 1) }], 
+                            //    y: accelDataX.slice(accelDataX.length - 51, accelDataX.length - 1) }], 
                             //    { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
                             //);
+                            Plotly.plot(graphDivAccelY, [{
+                                x: accelTime.slice(0, 49),
+                                y: accelDataY.slice(accelDataY.length - 51, accelDataY.length - 1) }], 
+                                { margin: { t: 0 }, yaxis: { range: [-4, 4], } }
+                            );
                             //Plotly.plot(graphDivAccelZ, [{
                             //    x: accelTime.slice(0, 49),
                             //    y: accelDataY.slice(accelDataZ.length - 51, accelDataZ.length - 1) }], 
