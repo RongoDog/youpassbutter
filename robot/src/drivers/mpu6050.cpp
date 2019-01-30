@@ -19,9 +19,9 @@ extern "C" {
 
 // sample rate divider to set freq at which accel data is read
 // DLPF is enabled, so the gyroscope frequency is 8 KHz.
-// If we want a sample rate of 100 Hz, the SMPLRT_DIV value should be 1000/100 - 1 = 4
+// If we want a sample rate of 100 Hz, the SMPLRT_DIV value should be 1000/200 - 1 = 4
 #define SAMPLE_RATE_REG           0x19
-#define SMPRT_DIV                 0x09
+#define SMPRT_DIV                 0x04
 
 // We are not using FSYNC and we want to reduce high frequencey signals
 // at the cost of delay. (Bandwidth = 44Hz, Delay = 8.5ms)
@@ -42,7 +42,7 @@ extern "C" {
 
 // We enable the FIFO for accelerometer and gyroscope values
 #define FIFO_EN_REG               0x23
-#define FIFO_EN_CONFIG            0x78
+#define FIFO_EN_CONFIG            0x08
 
 // We need to clear the FIFO and enable it.
 #define USER_CTRL_REG             0x6A

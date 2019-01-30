@@ -11,6 +11,16 @@
         var accelDataX = [];
         var accelDataY = [];
         var accelDataZ = [];
+        document.addEventListener("keypress", (event) => {
+            event.preventDefault();
+            switch (event.code) {
+              case "KeyP":
+                console.log(accelDataY);
+                break;
+              default:
+                break;
+            }
+          });
         var rotateDataX = [];
         var rotateDataY = [];
         var rotateDataZ = [];
@@ -112,7 +122,7 @@
                             return nativeInt;
                         }
                         for (i = 0; i < raw.length; i+=2) {
-                          const dataType = i%12;
+                          const dataType = i%6;
                           switch(dataType) {
                             case (0):
                                 accelDataX.push(conversion(raw, i)/8192.0);
@@ -123,15 +133,6 @@
                                 break;
                             case (4):
                                 accelDataZ.push(conversion(raw, i)/8192.0);
-                                break;
-                            case (6):
-                                rotateDataX.push(conversion(raw, i)/131.0);
-                                break;
-                            case (8):
-                                rotateDataY.push(conversion(raw, i)/131.0);
-                                break;
-                            case (10):
-                                rotateDataZ.push(conversion(raw, i)/131.0);
                                 break;
                             default:
                           }
