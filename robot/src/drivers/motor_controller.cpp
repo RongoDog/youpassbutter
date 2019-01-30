@@ -8,47 +8,47 @@ extern "C" {
 
 #define PI_OUTPUT 1
 
-void drive_forward() {
+void drive_forward(unsigned int leftCycle, unsigned int rightCycle) {
 	std::cout << "FORWARD\n";
-	gpioWrite(OUTPUT_E_RIGHT, 1);
+	gpioPWM(OUTPUT_E_RIGHT, leftCycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 1);
 	gpioWrite(OUTPUT_IN_4_RIGHT, 0);
 
-	gpioWrite(OUTPUT_E_LEFT, 1);
+	gpioPWM(OUTPUT_E_LEFT, rightCycle);
 	gpioWrite(OUTPUT_IN_1_LEFT, 1);
 	gpioWrite(OUTPUT_IN_2_LEFT, 0);
 }
 
-void drive_backward() {
+void drive_backward(unsigned int leftCycle, unsigned int rightCycle) {
 	std::cout << "BACKWARD\n";
-	gpioWrite(OUTPUT_E_RIGHT, 1);
+	gpioPWM(OUTPUT_E_RIGHT, leftCycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 0);
 	gpioWrite(OUTPUT_IN_4_RIGHT, 1);
 
-	gpioWrite(OUTPUT_E_LEFT, 1);
+	gpioPWM(OUTPUT_E_LEFT, rightCycle);
 	gpioWrite(OUTPUT_IN_1_LEFT, 0);
 	gpioWrite(OUTPUT_IN_2_LEFT, 1);
 }
 
-void sharp_left() {
+void sharp_left(unsigned int leftCycle, unsigned int rightCycle) {
 	std::cout << "LEFT\n";
-	gpioWrite(OUTPUT_E_RIGHT, 1);
+	gpioPWM(OUTPUT_E_RIGHT, leftCycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 1);
 	gpioWrite(OUTPUT_IN_4_RIGHT, 0);
 
-	gpioWrite(OUTPUT_E_LEFT, 1);
+	gpioPWM(OUTPUT_E_LEFT, rightCycle);
 	gpioWrite(OUTPUT_IN_1_LEFT, 0);
 	gpioWrite(OUTPUT_IN_2_LEFT, 1);
 }
 
 
-void sharp_right() {
+void sharp_right(unsigned int leftCycle, unsigned int rightCycle) {
 	std::cout << "RIGHT\n";
-	gpioWrite(OUTPUT_E_RIGHT, 1);
+	gpioPWM(OUTPUT_E_RIGHT, leftCycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 0);
 	gpioWrite(OUTPUT_IN_4_RIGHT, 1);
 
-	gpioWrite(OUTPUT_E_LEFT, 1);;
+	gpioPWM(OUTPUT_E_LEFT, rightCycle);
 	gpioWrite(OUTPUT_IN_1_LEFT, 1);
 	gpioWrite(OUTPUT_IN_2_LEFT, 0);
 }

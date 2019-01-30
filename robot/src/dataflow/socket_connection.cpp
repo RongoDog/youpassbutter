@@ -7,6 +7,8 @@
 #include "globals.h"
 #include "drivers/motor_controller.h"
 #include <errno.h>
+#define SERVO 0x01
+#define DRIVETRAIN 0x02
 #define GO_FORWARD 0x01
 #define GO_BACKWARD 0x02
 #define SHARP_LEFT 0x03
@@ -43,24 +45,24 @@ extern "C" void* initialize_socket_connection(void *args) {
   info->socketfd = connfd;
   info->has_socket_connection = true;
   while (1) {
-    returned_len = recv(connfd, message, 1, MSG_WAITALL);
+    returned_len = recv(connfd, message, 4, MSG_WAITALL);
     if (returned_len < 0) {
       fprintf(stderr, "Failed to receive message from socket connection\n");
       continue;
     }
     fprintf(stdout, "Received message %x", message[0]);
-    switch(message[0]) {
+    switch(message[1]) {
       case GO_FORWARD:
-        drive_forward();
+        drive_forward((unsigned int)message[2], (unsigned int)message[3]);
         break;
       case GO_BACKWARD:
-        drive_backward();
+        drive_backward((unsigned int)message[2], (unsigned int)message[3]);
         break;
       case SHARP_LEFT:
-        sharp_left();
+        sharp_left((unsigned int)message[2], (unsigned int)message[3]);
         break;
       case SHARP_RIGHT:
-        sharp_right();
+        sharp_right((unsigned int)message[2], (unsigned int)message[3]);
         break;
       case STOP:
         motors_off();
