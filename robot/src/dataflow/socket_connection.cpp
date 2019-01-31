@@ -9,6 +9,7 @@
 #include <errno.h>
 #define SERVO 0x01
 #define DRIVETRAIN 0x02
+#define SET_DUTY_CYCLE 0x03
 #define GO_FORWARD 0x01
 #define GO_BACKWARD 0x02
 #define SHARP_LEFT 0x03
@@ -56,18 +57,18 @@ extern "C" void* initialize_socket_connection(void *args) {
         break;
       case DRIVETRAIN:
         switch(message[1]) {
-          fprintf(stdout, "Received direction %x %x $x", message[1], message[2], message[3]);
+          fprintf(stdout, "Received direction %x", message[1]);
           case GO_FORWARD:
-            drive_forward((unsigned int)message[2], (unsigned int)message[3]);
+            drive_forward(info->duty_cycle, info->duty_cycle);
             break;
           case GO_BACKWARD:
-            drive_backward((unsigned int)message[2], (unsigned int)message[3]);
+            drive_backward(info->duty_cycle, info->duty_cycle);
             break;
           case SHARP_LEFT:
-            sharp_left((unsigned int)message[2], (unsigned int)message[3]);
+            sharp_left(info->duty_cycle, info->duty_cycle);
             break;
           case SHARP_RIGHT:
-            sharp_right((unsigned int)message[2], (unsigned int)message[3]);
+            sharp_right(info->duty_cycle, info->duty_cycle);
             break;
           case STOP:
             motors_off();
@@ -79,6 +80,10 @@ extern "C" void* initialize_socket_connection(void *args) {
           default:
             continue;
         }
+        break;
+      case SET_DUTY_CYCLE:
+        info->duty_cycle = message[1];
+        break;
       default:
         break;
     }

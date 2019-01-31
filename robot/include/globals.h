@@ -6,6 +6,7 @@ struct thread_info {
   int socketfd;
   bool has_socket_connection;
   bool client_connected;
+  unsigned int duty_cycle;
 };
 
 #endif // GLOBALS_H

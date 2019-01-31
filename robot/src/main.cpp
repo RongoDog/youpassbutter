@@ -35,6 +35,7 @@ int main() {
   int socketfd = 0;
   bool client_connected = false;
   bool has_socket_connection = false;
+  unsigned int duty_cycle = 0;
 
   // We create the thread info structure
   struct thread_info *info = (struct thread_info *)malloc(sizeof(struct thread_info));
@@ -42,6 +43,7 @@ int main() {
   info->socketfd = socketfd;
   info->client_connected = client_connected;
   info->has_socket_connection = has_socket_connection;
+  info->duty_cycle = duty_cycle;
 
   pthread_create(&accelerometer_thread, NULL, initialize_mpu6050, (void *)info);
   pthread_create(&socket_connection_thread, NULL, initialize_socket_connection, (void *)info);
