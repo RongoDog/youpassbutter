@@ -19,17 +19,17 @@ function setupKeyCommands(dataChannel) {
         break;
       case "KeyA":
         byteArray[0] = 2;
-        byteArray[1] = 2;
+        byteArray[1] = 3;
         dataChannel.send(byteArray);
         break;
       case "KeyD":
         byteArray[0] = 2;
-        byteArray[1] = 3;
+        byteArray[1] = 4;
         dataChannel.send(byteArray);
         break;
       case "KeyS":
         byteArray[0] = 2;
-        byteArray[1] = 4;
+        byteArray[1] = 2;
         dataChannel.send(byteArray);
         break;
       case "KeyE":
