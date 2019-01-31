@@ -8,7 +8,7 @@ extern "C" {
 
 #define PI_OUTPUT 1
 
-void drive_forward(unsigned int duty_cycle);
+void drive_forward(unsigned int duty_cycle) {
 	std::cout << "FORWARD\n";
 	gpioPWM(OUTPUT_E_RIGHT, duty_cycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 1);
@@ -19,7 +19,7 @@ void drive_forward(unsigned int duty_cycle);
 	gpioWrite(OUTPUT_IN_2_LEFT, 0);
 }
 
-void drive_backward(unsigned int duty_cycle);
+void drive_backward(unsigned int duty_cycle) {
 	std::cout << "BACKWARD\n";
 	gpioPWM(OUTPUT_E_RIGHT, duty_cycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 0);
@@ -30,7 +30,7 @@ void drive_backward(unsigned int duty_cycle);
 	gpioWrite(OUTPUT_IN_2_LEFT, 1);
 }
 
-void sharp_left(unsigned int duty_cycle);
+void sharp_left(unsigned int duty_cycle) {
 	std::cout << "LEFT\n";
 	gpioPWM(OUTPUT_E_RIGHT, duty_cycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 1);
@@ -42,7 +42,7 @@ void sharp_left(unsigned int duty_cycle);
 }
 
 
-void sharp_right(unsigned int duty_cycle);
+void sharp_right(unsigned int duty_cycle) {
 	std::cout << "RIGHT\n";
 	gpioPWM(OUTPUT_E_RIGHT, duty_cycle);
 	gpioWrite(OUTPUT_IN_3_RIGHT, 0);
