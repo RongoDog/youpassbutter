@@ -33,11 +33,13 @@ function setupKeyCommands(dataChannel) {
         dataChannel.send(byteArray);
         break;
       case "KeyE":
-        byteArray[0] = 5;
+        byteArray[0] = 2;
+        byteArray[1] = 5;
         dataChannel.send(byteArray);
         break;
       case "KeyO":
-        byteArray[0] = 6;
+        byteArray[0] = 2;
+        byteArray[1] = 6;
         dataChannel.send(byteArray);
         break;
       default:
