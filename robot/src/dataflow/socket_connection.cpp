@@ -59,16 +59,16 @@ extern "C" void* initialize_socket_connection(void *args) {
         switch(message[1]) {
           fprintf(stdout, "Received direction %x", message[1]);
           case GO_FORWARD:
-            drive_forward(info->duty_cycle, info->duty_cycle);
+            drive_forward(info->duty_cycle);
             break;
           case GO_BACKWARD:
-            drive_backward(info->duty_cycle, info->duty_cycle);
+            drive_backward(info->duty_cycle);
             break;
           case SHARP_LEFT:
-            sharp_left(info->duty_cycle, info->duty_cycle);
+            sharp_left(info->duty_cycle);
             break;
           case SHARP_RIGHT:
-            sharp_right(info->duty_cycle, info->duty_cycle);
+            sharp_right(info->duty_cycle);
             break;
           case STOP:
             motors_off();
