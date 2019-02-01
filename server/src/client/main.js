@@ -207,6 +207,6 @@
                 }
             }, 1000000);
         }, false);
-        renderVisualization();
+        //renderVisualization();
     });
 })();
