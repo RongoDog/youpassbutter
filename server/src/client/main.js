@@ -272,22 +272,14 @@
                 if (fd.checked) {
                     if (face.x > 60) {
                         byteArray[0] = 3;
-                        if (face.x > 80) {
-                            byteArray[1] = 255;
-                        } else {
-                            byteArray[1] = 200;
-                        }
+                        byteArray[1] = 175;
                         dataChannel.send(byteArray);
                         byteArray[0] = 2;
                         byteArray[1] = 3;
                         dataChannel.send(byteArray);
                     } else if (face.x < 40) {
                         byteArray[0] = 3;
-                        if (face.x < 20) {
-                            byteArray[1] = 255;
-                        } else {
-                            byteArray[1] = 200;
-                        }
+                        byteArray[1] = 175;
                         dataChannel.send(byteArray);
                         byteArray[0] = 2;
                         byteArray[1] = 4;
