@@ -270,7 +270,7 @@
             for (let i = 0; i < faceVect.size(); i++) {
                 let face = faceVect.get(i);
                 if (fd.checked) {
-                    if (face.x > 55) {
+                    if (face.x > 60) {
                         byteArray[0] = 3;
                         if (face.x > 80) {
                             byteArray[1] = 255;
@@ -281,7 +281,7 @@
                         byteArray[0] = 2;
                         byteArray[1] = 3;
                         dataChannel.send(byteArray);
-                    } else if (face.x < 55) {
+                    } else if (face.x < 40) {
                         byteArray[0] = 3;
                         if (face.x < 20) {
                             byteArray[1] = 255;
@@ -291,6 +291,10 @@
                         dataChannel.send(byteArray);
                         byteArray[0] = 2;
                         byteArray[1] = 4;
+                        dataChannel.send(byteArray);
+                    } else {
+                        byteArray[0] = 2;
+                        byteArray[1] = 5;
                         dataChannel.send(byteArray);
                     }
                 }
