@@ -272,17 +272,17 @@
                 if (fd.checked) {
                     if (face.x > 60) {
                         byteArray[0] = 3;
-                        byteArray[1] = 125;
-                        dataChannel.send(byteArray);
-                        byteArray[0] = 2;
-                        byteArray[1] = 3;
-                        dataChannel.send(byteArray);
-                    } else if (face.x < 40) {
-                        byteArray[0] = 3;
-                        byteArray[1] = 125;
+                        byteArray[1] = 100;
                         dataChannel.send(byteArray);
                         byteArray[0] = 2;
                         byteArray[1] = 4;
+                        dataChannel.send(byteArray);
+                    } else if (face.x < 40) {
+                        byteArray[0] = 3;
+                        byteArray[1] = 100;
+                        dataChannel.send(byteArray);
+                        byteArray[0] = 2;
+                        byteArray[1] = 3;
                         dataChannel.send(byteArray);
                     } else {
                         byteArray[0] = 2;
