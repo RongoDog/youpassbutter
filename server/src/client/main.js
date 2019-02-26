@@ -3,6 +3,8 @@
     socket.emit("join", "client");
     var signalObj = null;
     var dataChannel;
+    var bufferArray = new ArrayBuffer(4);
+    var byteArray = new Uint8Array(bufferArray);
     window.addEventListener('DOMContentLoaded', function () {
         var isStreaming = false;
         var video = document.getElementById('v');
