@@ -6,7 +6,7 @@ RTCPeerConnection = window.RTCPeerConnection || /*window.mozRTCPeerConnection ||
 RTCSessionDescription = /*window.mozRTCSessionDescription ||*/ window.RTCSessionDescription;
 RTCIceCandidate = /*window.mozRTCIceCandidate ||*/ window.RTCIceCandidate;
 
-function signal(socket, onStream, onError, onClose, onMessage, onData) {
+function signal(socket, onStream, onError, onClose, onMessage, onData, passDataChannel) {
   var pc;
   var iceCandidates = [];
   var hasRemoteDesc = false;
@@ -65,6 +65,7 @@ function signal(socket, onStream, onError, onClose, onMessage, onData) {
   };
 
   pc.ondatachannel = function (event) {
+    passDataChannel(event.channel);
     setupKeyCommands(event.channel);
     event.channel.onopen = () => console.log("Data Channel opened");
     event.channel.onerror = (err) => console.error("Data Channel Error:", err);
