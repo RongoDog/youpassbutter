@@ -195,6 +195,9 @@
                     },
                     function (newDataChannel) {
                         dataChannel = newDataChannel;
+                        byteArray[0] = 3;
+                        byteArray[1] = 255;
+                        dataChannel.send(byteArray);
                     }
                 );
             }
@@ -267,19 +270,24 @@
             cv.pyrDown(faceMat, faceMat);
             size = faceMat.size();
             faceClassifier.detectMultiScale(faceMat, faceVect);
+            if (faceVect.size() === 0) {
+                byteArray[0] = 2;
+                byteArray[1] = 5;
+                dataChannel.send(byteArray);
+            }
             for (let i = 0; i < faceVect.size(); i++) {
                 let face = faceVect.get(i);
                 if (fd.checked) {
                     if (face.x > 60) {
                         byteArray[0] = 3;
-                        byteArray[1] = 100;
+                        byteArray[1] = 150;
                         dataChannel.send(byteArray);
                         byteArray[0] = 2;
                         byteArray[1] = 4;
                         dataChannel.send(byteArray);
                     } else if (face.x < 40) {
                         byteArray[0] = 3;
-                        byteArray[1] = 100;
+                        byteArray[1] = 150;
                         dataChannel.send(byteArray);
                         byteArray[0] = 2;
                         byteArray[1] = 3;
