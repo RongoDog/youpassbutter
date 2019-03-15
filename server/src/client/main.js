@@ -270,7 +270,7 @@
             cv.pyrDown(faceMat, faceMat);
             size = faceMat.size();
             faceClassifier.detectMultiScale(faceMat, faceVect);
-            if (faceVect.size() === 0) {
+            if ((faceVect.size() === 0) && fd.checked) {
                 byteArray[0] = 2;
                 byteArray[1] = 5;
                 dataChannel.send(byteArray);
